@@ -52,11 +52,11 @@ export default function LoginPage(props) {
       >
         <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={3}>
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h3>SignUp</h3>
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
@@ -81,8 +81,8 @@ export default function LoginPage(props) {
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
-                      labelText="First Name..."
-                      id="first"
+                      labelText=" Username..."
+                      id="username"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -112,7 +112,25 @@ export default function LoginPage(props) {
                     />
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="password"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: 'password',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className={classes.inputIconsColor}>
+                              lock_outline
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                        autoComplete: 'off'
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Confirm Password"
+                      id="confirm"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -131,7 +149,7 @@ export default function LoginPage(props) {
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button simple color="primary" size="lg">
-                      Get started
+                      Sign Up
                     </Button>
                   </CardFooter>
                 </form>
