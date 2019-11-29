@@ -3,8 +3,14 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
 import Email from '@material-ui/icons/Email';
+import HomeIcon from '@material-ui/icons/Home';
+import FaceIcon from '@material-ui/icons/Face';
 import People from '@material-ui/icons/People';
 // core components
 import Header from 'layouts/Header/Header';
@@ -28,9 +34,15 @@ const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
-  setTimeout(function() {
+  setTimeout(() => {
     setCardAnimation('');
   }, 700);
+
+  const [age, setAge] = React.useState('');
+  const handleChange = event => {
+    setAge(event.target.value);
+  };
+
   const classes = useStyles();
   const { ...rest } = props;
   return (
@@ -82,7 +94,22 @@ export default function LoginPage(props) {
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
-                      labelText=" Username..."
+                      labelText="Họ tên"
+                      id="namename"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: 'text',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Username"
                       id="username"
                       formControlProps={{
                         fullWidth: true
@@ -97,7 +124,7 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
-                      labelText="Email..."
+                      labelText="Email"
                       id="email"
                       formControlProps={{
                         fullWidth: true
@@ -112,7 +139,22 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
-                      labelText="Password"
+                      labelText="Địa chỉ"
+                      id="address"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: 'text',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <HomeIcon className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Mật khẩu"
                       id="password"
                       formControlProps={{
                         fullWidth: true
@@ -130,7 +172,7 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
-                      labelText="Confirm Password"
+                      labelText="Xác nhận mật khẩu"
                       id="confirm"
                       formControlProps={{
                         fullWidth: true
@@ -147,6 +189,38 @@ export default function LoginPage(props) {
                         autoComplete: 'off'
                       }}
                     />
+                    <CustomInput
+                      labelText="Ảnh đại diện"
+                      id="avatar"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: 'file',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <FaceIcon className={classes.inputIconsColor}>
+                              lock_outline
+                            </FaceIcon>
+                          </InputAdornment>
+                        ),
+                        autoComplete: 'off'
+                      }}
+                    />
+                    <FormControl fullWidth className={classes.formControl}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        Loại tài khoản
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={age}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={1}>Gia sư</MenuItem>
+                        <MenuItem value={2}>Học giả</MenuItem>
+                      </Select>
+                    </FormControl>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button simple color="primary" size="lg">
