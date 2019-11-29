@@ -18,6 +18,7 @@ import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
 import CardFooter from 'shared/Components/Card/CardFooter';
 import CustomInput from 'shared/Components/CustomInput';
+import Footer from 'layouts/Footer/Footer';
 
 import styles from 'shared/Styles/loginPage';
 
@@ -157,7 +158,7 @@ export default function LoginPage(props) {
             </GridItem>
           </GridContainer>
         </div>
-        {/* <Footer whiteFont /> */}
+        <Footer whiteFont />
       </div>
     </div>
   );

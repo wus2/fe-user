@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
-import Email from '@material-ui/icons/Email';
 import People from '@material-ui/icons/People';
 // core components
 import Header from 'layouts/Header/Header';
@@ -18,6 +17,7 @@ import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
 import CardFooter from 'shared/Components/Card/CardFooter';
 import CustomInput from 'shared/Components/CustomInput';
+import Footer from 'layouts/Footer/Footer';
 
 import styles from 'shared/Styles/loginPage';
 
@@ -127,7 +127,7 @@ export default function LoginPage(props) {
             </GridItem>
           </GridContainer>
         </div>
-        {/* <Footer whiteFont /> */}
+        <Footer whiteFont />
       </div>
     </div>
   );
