@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import Header from 'layouts/Header/Header';
 import HeaderLinks from 'layouts/Header/HeaderLinks';
 import HeaderStudent from 'layouts/Header/HeaderStudent';
+import Parallax from 'shared/Components/Parallax';
 import Footer from 'layouts/Footer/Footer';
 import styles from 'shared/Styles/components';
 
@@ -14,31 +15,36 @@ export default function Home(props) {
   const { ...rest } = props;
   return (
     <div>
-      <Grid container spacing={4}>
-        <Grid item lg={12} md={12} xl={12} xs={12}>
-          <Header
-            brand="Uber Tutor"
-            rightLinks={<HeaderLinks />}
-            fixed
-            color="transparent"
-            changeColorOnScroll={{
-              height: 400,
-              color: 'white'
-            }}
-            {...rest}
-          />
-        </Grid>
-        <Grid
-          item
-          lg={12}
-          md={12}
-          xl={12}
-          xs={12}
-          style={{ marginTop: '44px' }}
-        >
-          <HeaderStudent />
-        </Grid>
-      </Grid>
+      <Header
+        brand="Uber Tutor"
+        leftLinks={<HeaderStudent />}
+        rightLinks={<HeaderLinks />}
+        fixed
+        color="transparent"
+        changeColorOnScroll={{
+          height: 400,
+          color: 'white'
+        }}
+        {...rest}
+      />
+      <Parallax image={require('shared/Img/bg.jpg')}>
+        <div className={classes.container}>
+          <Grid container spacing={4}>
+            <Grid item>
+              <div className={classes.brand}>
+                <h1 className={classes.title}>UBER TUTOR</h1>
+                <h3 className={classes.subtitle}>
+                  Nơi hội tụ những con người nhiệt huyết trong sự nghiệp trồng
+                  người.
+                </h3>
+                <h3 className={classes.subtitle}>
+                  Chúng tôi chọn bạn! Còn bạn thì sao?
+                </h3>
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+      </Parallax>
       <Footer whiteFont />
     </div>
   );

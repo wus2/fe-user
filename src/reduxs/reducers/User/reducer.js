@@ -4,7 +4,6 @@ const INITIAL_STATE = {
   isSignIn: false,
   isSignUp: false,
   username: '',
-  nickname: '',
   token: ''
 };
 
@@ -14,8 +13,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isSignIn: true,
-        username: action.payload.username,
-        nickname: action.payload.nickname
+        username: action.payload.username
       };
     case ActionTypes.SIGN_UP:
       return { ...state, isSignUp: action.payload };

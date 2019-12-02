@@ -1,20 +1,20 @@
-/*eslint-disable*/
 import React from 'react';
 import { useSelector } from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Search from '@material-ui/icons/Search';
 import Tooltip from '@material-ui/core/Tooltip';
 // @material-ui/icons
-import { Apps } from '@material-ui/icons';
 import { LinkContainer } from 'react-router-bootstrap';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
 // core components
 import CustomDropdown from 'shared/Components/CustomDropdown';
 import Button from 'shared/Components/Button.js';
+import CustomInput from 'shared/Components/CustomInput';
 import styles from 'shared/Styles/headerLinksStyle';
-import image from 'logo192.png';
+import image from 'shared/Img/logo192.png';
+
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
@@ -37,7 +37,7 @@ export default function HeaderLinks(props) {
                 target="_blank"
                 className={classes.navLink}
               >
-                <i className={classes.socialIcons + ' fas fa-comments'} />
+                <i className={`${classes.socialIcons} fas fa-comments`} />
               </Button>
             </Tooltip>
           </ListItem>
@@ -54,7 +54,7 @@ export default function HeaderLinks(props) {
                 className={classes.navLink}
               >
                 <i
-                  className={classes.socialIcons + ' fas fa-exclamation-circle'}
+                  className={`${classes.socialIcons} fas fa-exclamation-circle`}
                 />
               </Button>
             </Tooltip>
@@ -69,7 +69,7 @@ export default function HeaderLinks(props) {
                 <img src={image} className={classes.img} alt="profile" />
               }
               buttonProps={{
-                className: classes.navLink + ' ' + classes.imageDropdownButton,
+                className: `${classes.navLink} ${classes.imageDropdownButton}`,
                 color: 'transparent'
               }}
               dropdownList={['Thông tin cá nhân', 'Đổi mật khẩu', 'Đăng xuất']}
@@ -85,7 +85,7 @@ export default function HeaderLinks(props) {
                 target="_blank"
                 className={classes.navLink}
               >
-                <i className={classes.socialIcons + ' fas fa-registered'} />{' '}
+                <i className={`${classes.socialIcons} fas fa-registered`} />
                 Sign Up
               </Button>
             </LinkContainer>
@@ -97,8 +97,8 @@ export default function HeaderLinks(props) {
                 target="_blank"
                 className={classes.navLink}
               >
-                <i class={classes.socialIcons + ' fas fa-sign-in-alt'}></i> Sign
-                In
+                <i className={`${classes.socialIcons} fas fa-sign-in-alt`} />{' '}
+                Sign In
               </Button>
             </LinkContainer>
           </ListItem>
@@ -114,7 +114,7 @@ export default function HeaderLinks(props) {
                 target="_blank"
                 className={classes.navLink}
               >
-                <i className={classes.socialIcons + ' fab fa-facebook'} />
+                <i className={`${classes.socialIcons} fab fa-facebook`} />
               </Button>
             </Tooltip>
           </ListItem>
@@ -130,9 +130,30 @@ export default function HeaderLinks(props) {
                 target="_blank"
                 className={classes.navLink}
               >
-                <i className={classes.socialIcons + ' fab fa-google'} />
+                <i className={`${classes.socialIcons} fab fa-google`} />
               </Button>
             </Tooltip>
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <CustomInput
+                white
+                inputRootCustomClasses={classes.inputRootCustomClasses}
+                formControlProps={{
+                  className: classes.formControlNav
+                }}
+                inputProps={{
+                  placeholder: 'Search',
+                  inputProps: {
+                    'aria-label': 'Search',
+                    className: classes.searchInput
+                  }
+                }}
+              />
+              <Button justIcon round color="white">
+                <Search className={classes.searchIcon} />
+              </Button>
+            </div>
           </ListItem>
         </>
       )}

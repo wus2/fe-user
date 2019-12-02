@@ -34,11 +34,12 @@ export const emitRemoveTokenAction = () => {
 export const SignIn = (username, password) => async dispatch => {
   const responseData = await UserHandler.SignIn(username, password);
   if (!isNull(responseData)) {
-    const { token, user } = responseData;
+    console.log(responseData);
+    const { token, payload } = responseData;
     window.localStorage.setItem('token', token);
     dispatch(emitSetTokenAction(token));
-    dispatch(emitSignInAction(user));
-    history.push('/main');
+    dispatch(emitSignInAction(payload));
+    history.push('/');
   }
 };
 

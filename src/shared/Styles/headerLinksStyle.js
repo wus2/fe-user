@@ -127,6 +127,14 @@ const headerLinksStyle = theme => ({
     top: '4px',
     borderRadius: '50%',
     marginLeft: '5px'
+  },
+  formControlNav: {
+    margin: '0 0 17px 0',
+    paddingTop: '5px',
+    position: 'relative',
+    '& svg,& .fab,& .far,& .fal,& .fas,& .material-icons': {
+      color: '#495057'
+    }
   }
 });
 

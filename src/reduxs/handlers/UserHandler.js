@@ -2,7 +2,6 @@ import * as HttpClient from 'services/httpClient';
 
 export const SignIn = async (username, password) => {
   const rs = await HttpClient.SignIn(username, password);
-  console.log(rs);
   return rs;
 };
 

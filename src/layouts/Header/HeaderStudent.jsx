@@ -1,12 +1,13 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import { LinkContainer } from 'react-router-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
-import Search from '@material-ui/icons/Search';
-import Header from 'layouts/Header/Header';
-import styles from 'shared/Styles/headerLinksStyle';
-import CustomInput from 'shared/Components/CustomInput';
 import Button from 'shared/Components/Button.js';
+import CustomDropdown from 'shared/Components/CustomDropdown';
+import { Apps } from '@material-ui/icons';
+import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
+import styles from 'shared/Styles/headerLinksStyle';
 
 const useStyles = makeStyles(styles);
 
@@ -14,54 +15,81 @@ export default function Home(props) {
   const classes = useStyles();
   const { ...rest } = props;
   return (
-    <Header
-      brand="Brand"
-      color="primary"
-      leftLinks={
-        <List className={classes.list}>
-          <ListItem className={classes.listItem}>
-            <Button
-              href="#pablo"
-              className={classes.navLink}
-              onClick={e => e.preventDefault()}
-              color="transparent"
-            >
-              Link
-            </Button>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <Button
-              href="#pablo"
-              className={classes.navLink}
-              onClick={e => e.preventDefault()}
-              color="transparent"
-            >
-              Link
-            </Button>
-          </ListItem>
-        </List>
-      }
-      rightLinks={
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <CustomInput
-            white
-            inputRootCustomClasses={classes.inputRootCustomClasses}
-            formControlProps={{
-              className: classes.formControl
-            }}
-            inputProps={{
-              placeholder: 'Search',
-              inputProps: {
-                'aria-label': 'Search',
-                className: classes.searchInput
-              }
-            }}
-          />
-          <Button justIcon round color="white">
-            <Search className={classes.searchIcon} />
+    <List className={classes.list}>
+      <ListItem className={classes.listItem}>
+        <CustomDropdown
+          noLiPadding
+          buttonText="Danh Mục"
+          buttonProps={{
+            className: classes.navLink,
+            color: 'transparent'
+          }}
+          buttonIcon={Apps}
+          dropdownList={[
+            <LinkContainer to="/" className={classes.dropdownLink}>
+              <div>
+                <i className={`${classes.socialIcons} fas fa-registered`} />
+                Danh muc
+              </div>
+            </LinkContainer>,
+            <LinkContainer to="/" className={classes.dropdownLink}>
+              <div>
+                <i className={`${classes.socialIcons} fas fa-registered`} />
+                Danh muc
+              </div>
+            </LinkContainer>
+          ]}
+        />
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <CustomDropdown
+          noLiPadding
+          buttonText="Khu Vực"
+          buttonProps={{
+            className: classes.navLink,
+            color: 'transparent'
+          }}
+          buttonIcon={EmojiTransportationIcon}
+          dropdownList={[
+            <LinkContainer to="/" className={classes.dropdownLink}>
+              <div>
+                <i className={`${classes.socialIcons} fas fa-registered`} />
+                Quận 1
+              </div>
+            </LinkContainer>,
+            <LinkContainer to="/" className={classes.dropdownLink}>
+              <div>
+                <i className={`${classes.socialIcons} fas fa-registered`} />
+                Quận 2
+              </div>
+            </LinkContainer>
+          ]}
+        />
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <LinkContainer to="/user/signup">
+          <Button
+            color="transparent"
+            target="_blank"
+            className={classes.navLink}
+          >
+            <i className={`${classes.socialIcons} fas fa-graduation-cap`} />
+            Gia Sư
           </Button>
-        </div>
-      }
-    />
+        </LinkContainer>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <LinkContainer to="/user/signup">
+          <Button
+            color="transparent"
+            target="_blank"
+            className={classes.navLink}
+          >
+            <i className={`${classes.socialIcons} fas fa-star`} />
+            Top Gia Sư
+          </Button>
+        </LinkContainer>
+      </ListItem>
+    </List>
   );
 }
