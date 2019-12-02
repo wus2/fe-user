@@ -1,4 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import * as UserActions from 'reduxs/reducers/User/action';
+
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -8,7 +11,6 @@ import People from '@material-ui/icons/People';
 // core components
 import Header from 'layouts/Header/Header';
 import HeaderLinks from 'layouts/Header/HeaderLinks';
-// import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
@@ -18,20 +20,29 @@ import CardHeader from 'shared/Components/Card/CardHeader';
 import CardFooter from 'shared/Components/Card/CardFooter';
 import CustomInput from 'shared/Components/CustomInput';
 import Footer from 'layouts/Footer/Footer';
-
 import styles from 'shared/Styles/loginPage';
-
-// import image from 'assets/img/bg7.jpg';
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
+  const [state, setState] = React.useState({
+    username: '',
+    password: ''
+  });
+
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const { ...rest } = props;
+
   setTimeout(function() {
     setCardAnimation('');
   }, 700);
-  const classes = useStyles();
-  const { ...rest } = props;
+
+  const handleChange = prop => event => {
+    setState({ ...state, [prop]: event.target.value });
+  };
+
   return (
     <div>
       <Header
@@ -86,6 +97,7 @@ export default function LoginPage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      handleChange={handleChange('username')}
                       inputProps={{
                         type: 'text',
                         endAdornment: (
@@ -101,6 +113,7 @@ export default function LoginPage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      handleChange={handleChange('password')}
                       inputProps={{
                         type: 'password',
                         endAdornment: (
@@ -115,7 +128,16 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button
+                      onClick={() =>
+                        dispatch(
+                          UserActions.SignIn(state.username, state.password)
+                        )
+                      }
+                      simple
+                      color="primary"
+                      size="lg"
+                    >
                       Sign In
                     </Button>
                     <Button simple color="primary" size="lg">
@@ -127,8 +149,8 @@ export default function LoginPage(props) {
             </GridItem>
           </GridContainer>
         </div>
-        <Footer whiteFont />
       </div>
+      <Footer whiteFont />
     </div>
   );
 }

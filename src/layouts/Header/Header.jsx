@@ -15,7 +15,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Menu from '@material-ui/icons/Menu';
 // core components
 import { LinkContainer } from 'react-router-bootstrap';
-import styles from '../../shared/Styles/headerStyle.js';
+import styles from 'shared/Styles/headerStyle.js';
 
 const useStyles = makeStyles(styles);
 

@@ -1,6 +1,6 @@
 import { defaultFont } from '../material-kit-react.js';
 
-import tooltip from "./tooltipsStyle";
+import tooltip from './tooltipsStyle';
 
 const headerLinksStyle = theme => ({
   list: {
@@ -116,6 +116,17 @@ const headerLinksStyle = theme => ({
   ...tooltip,
   marginRight5: {
     marginRight: '5px'
+  },
+  img: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%'
+  },
+  imageDropdownButton: {
+    padding: '0px',
+    top: '4px',
+    borderRadius: '50%',
+    marginLeft: '5px'
   }
 });
 
