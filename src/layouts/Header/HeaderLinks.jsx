@@ -20,7 +20,7 @@ const useStyles = makeStyles(styles);
 export default function HeaderLinks(props) {
   const classes = useStyles();
   const userState = useSelector(state => state.userState);
-  const { isSignIn } = userState;
+  const { isSignIn, name } = userState;
   return (
     <List className={classes.list}>
       {isSignIn ? (
@@ -64,7 +64,7 @@ export default function HeaderLinks(props) {
               left
               caret={false}
               hoverColor="black"
-              dropdownHeader="Nguyen Dung"
+              dropdownHeader={`Hi, ${name}`}
               buttonText={
                 <img src={image} className={classes.img} alt="profile" />
               }
@@ -72,14 +72,57 @@ export default function HeaderLinks(props) {
                 className: `${classes.navLink} ${classes.imageDropdownButton}`,
                 color: 'transparent'
               }}
-              dropdownList={['Thông tin cá nhân', 'Đổi mật khẩu', 'Đăng xuất']}
+              dropdownList={[
+                <LinkContainer
+                  to="/users/profile"
+                  className={classes.dropdownLink}
+                >
+                  <div>
+                    <i
+                      className={`${classes.socialIcons} far fa-address-card`}
+                    />
+                    Profile
+                  </div>
+                </LinkContainer>,
+                <LinkContainer
+                  to="/users/updateavatar"
+                  className={classes.dropdownLink}
+                >
+                  <div>
+                    <i
+                      className={`${classes.socialIcons} far fa-user-circle`}
+                    />
+                    Update Avatar
+                  </div>
+                </LinkContainer>,
+                <LinkContainer
+                  to="/users/updatepassword"
+                  className={classes.dropdownLink}
+                >
+                  <div>
+                    <i className={`${classes.socialIcons} fas fa-key`} />
+                    Update Password
+                  </div>
+                </LinkContainer>,
+                <LinkContainer
+                  to="/users/updatepassword"
+                  className={classes.dropdownLink}
+                >
+                  <div>
+                    <i
+                      className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                    />
+                    Sign Out
+                  </div>
+                </LinkContainer>
+              ]}
             />
           </ListItem>
         </>
       ) : (
         <>
           <ListItem className={classes.listItem}>
-            <LinkContainer to="/user/signup">
+            <LinkContainer to="/users/register">
               <Button
                 color="transparent"
                 target="_blank"
@@ -91,7 +134,7 @@ export default function HeaderLinks(props) {
             </LinkContainer>
           </ListItem>
           <ListItem className={classes.listItem}>
-            <LinkContainer to="/user/signin">
+            <LinkContainer to="/users/login">
               <Button
                 color="transparent"
                 target="_blank"

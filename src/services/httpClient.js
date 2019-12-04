@@ -24,13 +24,46 @@ export const SignIn = async (username, password) => {
   return null;
 };
 
-export const SignUp = async (nickname, username, password) => {
+export const SignUp = async state => {
+  const {
+    username,
+    name,
+    email,
+    address,
+    phone,
+    cardID,
+    gender,
+    role,
+    dob,
+    password
+  } = state;
   try {
     const response = await instance.post('/users/register', {
-      nickname,
       username,
+      name,
+      email,
+      address,
+      phone,
+      cardID,
+      gender,
+      role,
+      dob,
       password
     });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetProfile = async () => {
+  try {
+    const token = window.localStorage.getItem('token');
+    const response = await instance.get('/users/profile', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);

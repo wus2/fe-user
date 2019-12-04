@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   isSignIn: false,
   isSignUp: false,
   username: '',
-  token: ''
+  name: ''
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -13,14 +13,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isSignIn: true,
-        username: action.payload.username
+        username: action.payload.username,
+        name: action.payload.name
       };
     case ActionTypes.SIGN_UP:
       return { ...state, isSignUp: action.payload };
     case ActionTypes.SET_TOKEN:
       return { ...state, token: action.payload };
     case ActionTypes.REMOVE_TOKEN:
-      return { ...state, token: '', username: '' };
+      return { ...state, username: '', name: '' };
     default:
       return { ...state };
   }

@@ -15,8 +15,8 @@ ReactDOM.render(
     <Router history={hist}>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/user/signin" component={SignIn} />
-        <Route exact path="/user/signup" component={SignUp} />
+        <Route exact path="/users/login" component={SignIn} />
+        <Route exact path="/users/register" component={SignUp} />
       </Switch>
     </Router>
   </Provider>,

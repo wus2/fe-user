@@ -67,7 +67,7 @@ export default function Home(props) {
         />
       </ListItem>
       <ListItem className={classes.listItem}>
-        <LinkContainer to="/user/signup">
+        <LinkContainer to="/">
           <Button
             color="transparent"
             target="_blank"
@@ -79,7 +79,7 @@ export default function Home(props) {
         </LinkContainer>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <LinkContainer to="/user/signup">
+        <LinkContainer to="/">
           <Button
             color="transparent"
             target="_blank"

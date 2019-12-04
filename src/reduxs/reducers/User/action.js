@@ -37,21 +37,17 @@ export const SignIn = (username, password) => async dispatch => {
     console.log(responseData);
     const { token, payload } = responseData;
     window.localStorage.setItem('token', token);
-    dispatch(emitSetTokenAction(token));
+    // dispatch(emitSetTokenAction(token));
     dispatch(emitSignInAction(payload));
     history.push('/');
   }
 };
 
-export const SignUp = (nickname, username, password) => async dispatch => {
-  const responseData = await UserHandler.SignUp(nickname, username, password);
-
-  if (
-    !isNull(responseData) &&
-    responseData.messages.indexOf('Success') !== -1
-  ) {
-    dispatch(emitSignUpAction(username, password));
-    history.push('/signin');
+export const SignUp = state => async dispatch => {
+  const responseData = await UserHandler.SignUp(state);
+  if (!isNull(responseData)) {
+    dispatch(emitSignUpAction());
+    history.push('/users/login');
   }
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import * as UserHandler from 'reduxs/handlers/UserHandler';
 import * as UserActions from 'reduxs/reducers/User/action';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,11 +40,15 @@ import Footer from 'layouts/Footer/Footer';
 
 import styles from 'shared/Styles/loginPage';
 
-// import image from 'assets/img/bg7.jpg';
-
 const useStyles = makeStyles(styles);
+const user = {};
 
-export default function RegisterPage(props) {
+const getUserData = data => {
+  user = data;
+  return user;
+};
+
+export default function ProfilePage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
   setTimeout(() => {
     setCardAnimation('');
