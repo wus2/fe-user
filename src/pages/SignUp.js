@@ -113,19 +113,19 @@ export default function RegisterPage(props) {
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
-                        href="#pablo"
+                        href="https://wusbeuser.herokuapp.com/users/auth/facebook"
                         target="_blank"
                         color="transparent"
-                        onClick={e => e.preventDefault()}
+                        // onClick={e => e.preventDefault()}
                       >
                         <i className="fab fa-facebook" />
                       </Button>
                       <Button
                         justIcon
-                        href="#pablo"
+                        href="https://wusbeuser.herokuapp.com/users/auth/google"
                         target="_blank"
                         color="transparent"
-                        onClick={e => e.preventDefault()}
+                        // onClick={e => e.preventDefault()}
                       >
                         <i className="fab fa-google-plus-g" />
                       </Button>

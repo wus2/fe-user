@@ -12,6 +12,9 @@
     "no-underscore-dangle": 0,
     "import/imports-first": ["error", "absolute-first"],
     "import/no-unresolved": "off",
+    "no-nested-ternary": "off",
+    "react/jsx-props-no-spreading": "off",
+    "global-require": "off",
     "import/newline-after-import": "error"
   },
   "globals": {

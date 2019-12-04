@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { LinkContainer } from 'react-router-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from 'shared/Components/Button.js';
+import Button from 'shared/Components/Button';
 import CustomDropdown from 'shared/Components/CustomDropdown';
 import { Apps } from '@material-ui/icons';
 import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
@@ -11,7 +11,7 @@ import styles from 'shared/Styles/headerLinksStyle';
 
 const useStyles = makeStyles(styles);
 
-export default function Home(props) {
+export default function HeaderStudent(props) {
   const classes = useStyles();
   const { ...rest } = props;
   return (

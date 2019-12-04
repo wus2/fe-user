@@ -1,14 +1,12 @@
 import thunkMiddleware from 'redux-thunk';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import RootReducers from './reduxs/reducers/index';
 
 const store = createStore(
   RootReducers,
-  compose(
-    applyMiddleware(thunkMiddleware, logger),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  composeWithDevTools(applyMiddleware(thunkMiddleware, logger))
 );
 
 export default store;

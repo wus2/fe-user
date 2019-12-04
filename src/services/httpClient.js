@@ -71,4 +71,20 @@ export const GetProfile = async () => {
   return null;
 };
 
-export const SignOut = async () => {};
+export const UpdateProfile = async state => {
+  const { name, address, phone, cardID, gender, dob } = state;
+  try {
+    const response = await instance.post('/users/updateprofile', {
+      name,
+      address,
+      phone,
+      cardID,
+      gender,
+      dob
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};

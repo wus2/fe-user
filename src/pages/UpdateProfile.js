@@ -1,11 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as UserHandler from 'reduxs/handlers/UserHandler';
 import * as UserActions from 'reduxs/reducers/User/action';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Icon from '@material-ui/core/Icon';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,7 +12,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
 import Email from '@material-ui/icons/Email';
 import HomeIcon from '@material-ui/icons/Home';
-import Warning from '@material-ui/icons/Warning';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -26,7 +24,6 @@ import Header from 'layouts/Header/Header';
 import moment from 'moment';
 import HeaderLinks from 'layouts/Header/HeaderLinks';
 // import Footer from 'components/Footer/Footer';
-import SnackbarContent from 'shared/Components/SnackbarContent';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
@@ -41,20 +38,16 @@ import Footer from 'layouts/Footer/Footer';
 import styles from 'shared/Styles/loginPage';
 
 const useStyles = makeStyles(styles);
-const user = {};
-
-const getUserData = data => {
-  user = data;
-  return user;
-};
 
 export default function ProfilePage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
+  const userState = useSelector(state => state.userState);
   setTimeout(() => {
     setCardAnimation('');
   }, 700);
 
   const [state, setState] = React.useState({
+    user: {},
     username: '',
     name: '',
     email: '',
@@ -62,10 +55,18 @@ export default function ProfilePage(props) {
     phone: '',
     cardID: '',
     gender: '',
-    password: '',
-    role: null,
     dob: new Date('1900-12-16')
   });
+
+  const getUserData = data => {
+    setState({ ...state, user: data });
+  };
+
+  if (userState.isSignIn) {
+    UserHandler.GetProfile().then(data => {
+      return getUserData(data.data);
+    });
+  }
 
   const dispatch = useDispatch();
 
@@ -101,49 +102,37 @@ export default function ProfilePage(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
-              <SnackbarContent
-                message={
-                  <span>
-                    <b>Please check your email to confirm account</b>
-                  </span>
-                }
-                close
-                color="success"
-                icon={Warning}
-              />
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h3>SignUp</h3>
-                    <div className={classes.socialLine}>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fab fa-facebook" />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fab fa-google-plus-g" />
-                      </Button>
-                    </div>
+                    <h2>Update Profile</h2>
                   </CardHeader>
-                  <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
+                    <CustomInput
+                      labelText="Username"
+                      id="username"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      defaultVL={state.user.username}
+                      handleChange={handleChange('username')}
+                      inputProps={{
+                        type: 'text',
+                        readOnly: true,
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
                     <CustomInput
                       labelText="Họ tên"
                       id="name"
                       formControlProps={{
                         fullWidth: true
                       }}
+                      defaultVL={state.user.name}
                       handleChange={handleChange('name')}
                       inputProps={{
                         type: 'text',
@@ -154,31 +143,18 @@ export default function ProfilePage(props) {
                         )
                       }}
                     />
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('username')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+
                     <CustomInput
                       labelText="Email"
                       id="email"
                       formControlProps={{
                         fullWidth: true
                       }}
+                      defaultVL={state.user.email}
                       handleChange={handleChange('email')}
                       inputProps={{
                         type: 'email',
+                        readOnly: true,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -192,6 +168,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      defaultVL={state.user.address}
                       handleChange={handleChange('address')}
                       inputProps={{
                         type: 'text',
@@ -208,6 +185,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      defaultVL={state.user.phone}
                       handleChange={handleChange('phone')}
                       inputProps={{
                         type: 'text',
@@ -224,6 +202,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      defaultVL={state.user.card_id}
                       handleChange={handleChange('cardID')}
                       inputProps={{
                         type: 'text',
@@ -235,42 +214,6 @@ export default function ProfilePage(props) {
                       }}
                     />
 
-                    {/* <CustomInput
-                      labelText="Xác nhận mật khẩu"
-                      id="confirm"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'password',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    /> */}
-                    {/* <CustomInput
-                      labelText="Ảnh đại diện"
-                      id="avatar"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'file',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <FaceIcon className={classes.inputIconsColor}>
-                              lock_outline
-                            </FaceIcon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    /> */}
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         style={{ width: '100%' }}
@@ -280,7 +223,7 @@ export default function ProfilePage(props) {
                         margin="normal"
                         id="dob"
                         label="Ngày sinh"
-                        value={state.dob}
+                        value={state.user.dob}
                         onChange={handleDateChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date'
@@ -294,55 +237,22 @@ export default function ProfilePage(props) {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="gender"
-                        value={state.gender}
+                        value={state.user.gender}
                         onChange={handleChange('gender')}
                       >
                         <MenuItem value="Nam">Nam</MenuItem>
                         <MenuItem value="Nữ">Nữ</MenuItem>
                       </Select>
                     </FormControl>
-                    <FormControl fullWidth className={classes.formControl}>
-                      <InputLabel id="demo-simple-select-helper-label">
-                        Loại tài khoản
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="role"
-                        value={state.role}
-                        onChange={handleChange('role')}
-                      >
-                        <MenuItem value={1}>Gia sư</MenuItem>
-                        <MenuItem value={2}>Học giả</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <CustomInput
-                      labelText="Mật khẩu"
-                      id="password"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('password')}
-                      inputProps={{
-                        type: 'password',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button
                       simple
                       color="primary"
                       size="lg"
-                      onClick={() => dispatch(UserActions.SignUp(state))}
+                      onClick={() => dispatch(UserActions.UpdateProfile(state))}
                     >
-                      Sign Up
+                      Update
                     </Button>
                   </CardFooter>
                 </form>

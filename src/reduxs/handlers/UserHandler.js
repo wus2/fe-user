@@ -13,6 +13,11 @@ export const SignUp = async state => {
 
 export const GetProfile = async () => {
   const rs = await HttpClient.GetProfile();
+  return rs;
+};
+
+export const UpdateProfile = async state => {
+  const rs = await HttpClient.UpdateProfile(state);
   console.log(rs);
   return rs;
 };

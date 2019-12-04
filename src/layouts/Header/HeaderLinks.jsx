@@ -1,5 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import * as UserHandler from 'reduxs/handlers/UserHandler';
+import * as UserActions from 'reduxs/reducers/User/action';
+import { useSelector, useDispatch } from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -10,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { LinkContainer } from 'react-router-bootstrap';
 // core components
 import CustomDropdown from 'shared/Components/CustomDropdown';
-import Button from 'shared/Components/Button.js';
+import Button from 'shared/Components/Button';
 import CustomInput from 'shared/Components/CustomInput';
 import styles from 'shared/Styles/headerLinksStyle';
 import image from 'shared/Img/logo192.png';
@@ -18,9 +20,21 @@ import image from 'shared/Img/logo192.png';
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const userState = useSelector(state => state.userState);
   const { isSignIn, name } = userState;
+
+  const getUserData = data => {
+    dispatch(UserActions.SignIn(data.username, data.password));
+  };
+
+  if (!isSignIn && window.localStorage.getItem('token') !== null) {
+    UserHandler.GetProfile().then(data => {
+      return getUserData(data.data);
+    });
+  }
+
   return (
     <List className={classes.list}>
       {isSignIn ? (
@@ -105,8 +119,9 @@ export default function HeaderLinks(props) {
                   </div>
                 </LinkContainer>,
                 <LinkContainer
-                  to="/users/updatepassword"
+                  to="/"
                   className={classes.dropdownLink}
+                  onClick={() => dispatch(UserActions.SignOut())}
                 >
                   <div>
                     <i
@@ -155,6 +170,7 @@ export default function HeaderLinks(props) {
               <Button
                 color="transparent"
                 target="_blank"
+                href="https://wusbeuser.herokuapp.com/users/auth/facebook"
                 className={classes.navLink}
               >
                 <i className={`${classes.socialIcons} fab fa-facebook`} />
@@ -171,6 +187,7 @@ export default function HeaderLinks(props) {
               <Button
                 color="transparent"
                 target="_blank"
+                href="https://wusbeuser.herokuapp.com/users/auth/google"
                 className={classes.navLink}
               >
                 <i className={`${classes.socialIcons} fab fa-google`} />

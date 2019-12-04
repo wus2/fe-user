@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import Header from 'layouts/Header/Header';
 import HeaderLinks from 'layouts/Header/HeaderLinks';
 import HeaderStudent from 'layouts/Header/HeaderStudent';
+import HeaderTutor from 'layouts/Header/HeaderTutor';
 import Parallax from 'shared/Components/Parallax';
 import Footer from 'layouts/Footer/Footer';
 import styles from 'shared/Styles/components';
@@ -12,12 +14,24 @@ const useStyles = makeStyles(styles);
 
 export default function Home(props) {
   const classes = useStyles();
+  const userState = useSelector(state => state.userState);
+  const { isSignIn, role } = userState;
   const { ...rest } = props;
   return (
     <div>
       <Header
         brand="Uber Tutor"
-        leftLinks={<HeaderStudent />}
+        leftLinks={
+          isSignIn ? (
+            role === 1 ? (
+              <HeaderTutor />
+            ) : (
+              <HeaderStudent />
+            )
+          ) : (
+            <HeaderStudent />
+          )
+        }
         rightLinks={<HeaderLinks />}
         fixed
         color="transparent"

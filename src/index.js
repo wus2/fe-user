@@ -5,6 +5,8 @@ import { Router, Route, Switch } from 'react-router-dom';
 import Home from 'pages/Home';
 import SignIn from 'pages/SignIn';
 import SignUp from 'pages/SignUp';
+import UpdateProfile from 'pages/UpdateProfile';
+
 import hist from 'historyConfig';
 import store from 'store';
 import * as serviceWorker from './serviceWorker';
@@ -17,6 +19,7 @@ ReactDOM.render(
         <Route exact path="/" component={Home} />
         <Route exact path="/users/login" component={SignIn} />
         <Route exact path="/users/register" component={SignUp} />
+        <Route exact path="/users/profile" component={UpdateProfile} />
       </Switch>
     </Router>
   </Provider>,
