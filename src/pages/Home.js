@@ -2,10 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import Header from 'layouts/Header/Header';
-import HeaderLinks from 'layouts/Header/HeaderLinks';
-import HeaderStudent from 'layouts/Header/HeaderStudent';
-import HeaderTutor from 'layouts/Header/HeaderTutor';
+import HeaderNav from 'layouts/Header/HeaderNav';
 import Parallax from 'shared/Components/Parallax';
 import Footer from 'layouts/Footer/Footer';
 import styles from 'shared/Styles/components';
@@ -19,28 +16,7 @@ export default function Home(props) {
   const { ...rest } = props;
   return (
     <div>
-      <Header
-        brand="Uber Tutor"
-        leftLinks={
-          isSignIn ? (
-            role === 1 ? (
-              <HeaderTutor />
-            ) : (
-              <HeaderStudent />
-            )
-          ) : (
-            <HeaderStudent />
-          )
-        }
-        rightLinks={<HeaderLinks />}
-        fixed
-        color="transparent"
-        changeColorOnScroll={{
-          height: 400,
-          color: 'white'
-        }}
-        {...rest}
-      />
+      <HeaderNav />
       <Parallax image={require('shared/Img/bg.jpg')}>
         <div className={classes.container}>
           <Grid container spacing={4}>

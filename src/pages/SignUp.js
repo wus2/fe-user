@@ -21,9 +21,8 @@ import {
 } from '@material-ui/pickers';
 import People from '@material-ui/icons/People';
 // core components
-import Header from 'layouts/Header/Header';
+import HeaderNav from 'layouts/Header/HeaderNav';
 import moment from 'moment';
-import HeaderLinks from 'layouts/Header/HeaderLinks';
 // import Footer from 'components/Footer/Footer';
 import SnackbarContent from 'shared/Components/SnackbarContent';
 import GridContainer from 'shared/Components/Grid/GridContainer';
@@ -77,14 +76,7 @@ export default function RegisterPage(props) {
   const { ...rest } = props;
   return (
     <div>
-      <Header
-        absolute
-        brand="Uber Tutor"
-        fixed
-        color="transparent"
-        rightLinks={<HeaderLinks />}
-        {...rest}
-      />
+      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -307,7 +299,7 @@ export default function RegisterPage(props) {
                         onChange={handleChange('role')}
                       >
                         <MenuItem value={1}>Gia sư</MenuItem>
-                        <MenuItem value={2}>Học giả</MenuItem>
+                        <MenuItem value={2}>Học viên</MenuItem>
                       </Select>
                     </FormControl>
                     <CustomInput

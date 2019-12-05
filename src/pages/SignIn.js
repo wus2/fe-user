@@ -9,8 +9,7 @@ import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
 import People from '@material-ui/icons/People';
 // core components
-import Header from 'layouts/Header/Header';
-import HeaderLinks from 'layouts/Header/HeaderLinks';
+import HeaderNav from 'layouts/Header/HeaderNav';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
@@ -45,14 +44,7 @@ export default function LoginPage(props) {
 
   return (
     <div>
-      <Header
-        absolute
-        brand="Uber Tutor"
-        fixed
-        color="transparent"
-        rightLinks={<HeaderLinks />}
-        {...rest}
-      />
+      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{

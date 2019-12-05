@@ -6,6 +6,7 @@ import Home from 'pages/Home';
 import SignIn from 'pages/SignIn';
 import SignUp from 'pages/SignUp';
 import UpdateProfile from 'pages/UpdateProfile';
+import Introduce from 'pages/Introduce';
 
 import hist from 'historyConfig';
 import store from 'store';
@@ -19,7 +20,7 @@ ReactDOM.render(
         <Route exact path="/" component={Home} />
         <Route exact path="/users/login" component={SignIn} />
         <Route exact path="/users/register" component={SignUp} />
-        <Route exact path="/users/profile" component={UpdateProfile} />
+        <Route exact path="/users/tutor/introduce" component={Introduce} />
       </Switch>
     </Router>
   </Provider>,

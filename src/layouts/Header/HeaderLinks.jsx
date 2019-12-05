@@ -26,7 +26,8 @@ export default function HeaderLinks(props) {
   const { isSignIn, name } = userState;
 
   const getUserData = data => {
-    dispatch(UserActions.SignIn(data.username, data.password));
+    console.log(data);
+    dispatch(UserActions.emitSignInAction(data));
   };
 
   if (!isSignIn && window.localStorage.getItem('token') !== null) {

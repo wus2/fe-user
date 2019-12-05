@@ -15,7 +15,11 @@
     "no-nested-ternary": "off",
     "react/jsx-props-no-spreading": "off",
     "global-require": "off",
-    "import/newline-after-import": "error"
+    "no-unused-vars": "off",
+    "import/newline-after-import": "error",
+    "react/destructuring-assignment": "off",
+    "no-shadow": "off",
+    "react/require-default-props": "off"
   },
   "globals": {
     "window": true,
