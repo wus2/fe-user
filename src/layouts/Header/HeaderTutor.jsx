@@ -38,7 +38,7 @@ export default function HeaderTutor(props) {
         </LinkContainer>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <LinkContainer to="/users/tutor/introduce">
+        <LinkContainer to="/tutor/introduce">
           <Button
             color="transparent"
             target="_blank"

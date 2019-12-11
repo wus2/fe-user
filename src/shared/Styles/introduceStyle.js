@@ -17,7 +17,7 @@ const profilePageStyle = {
     margin: '1.071rem auto 0',
     maxWidth: '600px',
     color: '#999',
-    textAlign: 'center !important'
+    textAlign: 'left !important'
   },
   name: {
     marginTop: '-80px'
@@ -56,6 +56,11 @@ const profilePageStyle = {
   navWrapper: {
     margin: '20px auto 50px auto',
     textAlign: 'center'
+  },
+  divider: {
+    margin: '20px 0px',
+    width: '100%',
+    alignSelf: 'center'
   }
 };
 

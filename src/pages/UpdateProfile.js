@@ -1,11 +1,12 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as UserHandler from 'reduxs/handlers/UserHandler';
+import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from 'reduxs/reducers/User/action';
+import history from 'historyConfig';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import Money from '@material-ui/icons/MonetizationOn';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -38,36 +39,82 @@ import styles from 'shared/Styles/loginPage';
 
 const useStyles = makeStyles(styles);
 
-export default function ProfilePage(props) {
+export default function UpdateProfile(props) {
+  const dispatch = useDispatch();
+
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
-  const userState = useSelector(state => state.userState);
   setTimeout(() => {
     setCardAnimation('');
   }, 700);
+  const userState = useSelector(state => state.userState);
 
-  const [state, setState] = React.useState({
-    user: {},
-    username: '',
-    name: '',
-    email: '',
-    address: '',
-    phone: '',
-    cardID: '',
-    gender: '',
-    dob: new Date('1900-12-16')
-  });
-
-  const getUserData = data => {
-    setState({ ...state, user: data });
+  const drawData = data => {
+    return data.map((val, ind) => {
+      return (
+        <MenuItem key={ind} value={val}>
+          {val}
+        </MenuItem>
+      );
+    });
   };
 
-  if (userState.isSignIn) {
-    UserHandler.GetProfile().then(data => {
-      return getUserData(data.data);
-    });
-  }
+  const data = [
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    },
+    {
+      label: '',
+      id: '',
+      type: '',
+      read: false
+    }
+  ];
 
-  const dispatch = useDispatch();
+  const [state, setState] = React.useState({
+    username: null,
+    name: null,
+    email: null,
+    district: null,
+    address: null,
+    phone: null,
+    cardID: null,
+    gender: null,
+    price: null,
+    dob: null
+  });
 
   const handleChange = prop => event => {
     setState({ ...state, [prop]: event.target.value });
@@ -106,7 +153,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.username}
+                      defaultVL={userState.user.username}
                       handleChange={handleChange('username')}
                       inputProps={{
                         type: 'text',
@@ -124,7 +171,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.name}
+                      defaultVL={userState.user.name}
                       handleChange={handleChange('name')}
                       inputProps={{
                         type: 'text',
@@ -142,7 +189,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.email}
+                      defaultVL={userState.user.email}
                       handleChange={handleChange('email')}
                       inputProps={{
                         type: 'email',
@@ -154,13 +201,26 @@ export default function ProfilePage(props) {
                         )
                       }}
                     />
+                    <FormControl fullWidth className={classes.formControl}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        Khu vực
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="district"
+                        value={userState.user.district}
+                        onChange={handleChange('district')}
+                      >
+                        {drawData(district)}
+                      </Select>
+                    </FormControl>
                     <CustomInput
                       labelText="Địa chỉ"
                       id="address"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.address}
+                      defaultVL={userState.user.address}
                       handleChange={handleChange('address')}
                       inputProps={{
                         type: 'text',
@@ -177,7 +237,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.phone}
+                      defaultVL={userState.user.phone}
                       handleChange={handleChange('phone')}
                       inputProps={{
                         type: 'text',
@@ -194,7 +254,7 @@ export default function ProfilePage(props) {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      defaultVL={state.user.card_id}
+                      defaultVL={userState.user.card_id}
                       handleChange={handleChange('cardID')}
                       inputProps={{
                         type: 'text',
@@ -205,6 +265,27 @@ export default function ProfilePage(props) {
                         )
                       }}
                     />
+                    {userState.user.role === 1 ? (
+                      <CustomInput
+                        labelText="Giá tiền (VNĐ/giờ)"
+                        id="price"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        defaultVL={userState.user.price}
+                        handleChange={handleChange('price')}
+                        inputProps={{
+                          type: 'number',
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Money className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    ) : (
+                      <div />
+                    )}
 
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
@@ -215,7 +296,7 @@ export default function ProfilePage(props) {
                         margin="normal"
                         id="dob"
                         label="Ngày sinh"
-                        value={state.user.dob}
+                        value={userState.user.dob}
                         onChange={handleDateChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date'
@@ -229,7 +310,7 @@ export default function ProfilePage(props) {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="gender"
-                        value={state.user.gender}
+                        value={userState.user.gender}
                         onChange={handleChange('gender')}
                       >
                         <MenuItem value="Nam">Nam</MenuItem>
@@ -242,7 +323,10 @@ export default function ProfilePage(props) {
                       simple
                       color="primary"
                       size="lg"
-                      onClick={() => dispatch(UserActions.UpdateProfile(state))}
+                      onClick={() => {
+                        dispatch(UserActions.UpdateProfile(state));
+                        dispatch(UserActions.GetProfile());
+                      }}
                     >
                       Update
                     </Button>
@@ -257,3 +341,30 @@ export default function ProfilePage(props) {
     </div>
   );
 }
+
+const district = [
+  'Quận 1',
+  'Quận 2',
+  'Quận 3',
+  'Quận 4',
+  'Quận 5',
+  'Quận 6',
+  'Quận 7',
+  'Quận 8',
+  'Quận 9',
+  'Quận 10',
+  'Quận 11',
+  'Quận 12',
+  'Quận Thủ Đức',
+  'Quận Gò Vấp',
+  'Quận Bình Thạnh',
+  'Quận Tân Bình',
+  'Quận Tân Phú',
+  'Quận Phú Nhuận',
+  'Quận Bình Tân',
+  'Huyện Củ Chi',
+  'Huyện Hóc Môn',
+  'Huyện Bình Chánh',
+  'Huyện Nhà Bè',
+  'Huyện Cần Giờ'
+];

@@ -25,15 +25,8 @@ export default function HeaderLinks(props) {
   const userState = useSelector(state => state.userState);
   const { isSignIn, name } = userState;
 
-  const getUserData = data => {
-    console.log(data);
-    dispatch(UserActions.emitSignInAction(data));
-  };
-
   if (!isSignIn && window.localStorage.getItem('token') !== null) {
-    UserHandler.GetProfile().then(data => {
-      return getUserData(data.data);
-    });
+    dispatch(UserActions.GetProfile());
   }
 
   return (
@@ -81,57 +74,133 @@ export default function HeaderLinks(props) {
               hoverColor="black"
               dropdownHeader={`Hi, ${name}`}
               buttonText={
-                <img src={image} className={classes.img} alt="profile" />
+                <img
+                  src={
+                    userState.user.avatar
+                      ? `https://wusbeuser.herokuapp.com${userState.user.avatar}`
+                      : image
+                  }
+                  className={classes.img}
+                  alt="profile"
+                />
               }
               buttonProps={{
                 className: `${classes.navLink} ${classes.imageDropdownButton}`,
                 color: 'transparent'
               }}
-              dropdownList={[
-                <LinkContainer
-                  to="/users/profile"
-                  className={classes.dropdownLink}
-                >
-                  <div>
-                    <i
-                      className={`${classes.socialIcons} far fa-address-card`}
-                    />
-                    Profile
-                  </div>
-                </LinkContainer>,
-                <LinkContainer
-                  to="/users/updateavatar"
-                  className={classes.dropdownLink}
-                >
-                  <div>
-                    <i
-                      className={`${classes.socialIcons} far fa-user-circle`}
-                    />
-                    Update Avatar
-                  </div>
-                </LinkContainer>,
-                <LinkContainer
-                  to="/users/updatepassword"
-                  className={classes.dropdownLink}
-                >
-                  <div>
-                    <i className={`${classes.socialIcons} fas fa-key`} />
-                    Update Password
-                  </div>
-                </LinkContainer>,
-                <LinkContainer
-                  to="/"
-                  className={classes.dropdownLink}
-                  onClick={() => dispatch(UserActions.SignOut())}
-                >
-                  <div>
-                    <i
-                      className={`${classes.socialIcons} fas fa-sign-out-alt`}
-                    />
-                    Sign Out
-                  </div>
-                </LinkContainer>
-              ]}
+              dropdownList={
+                userState.user.role === 1
+                  ? [
+                      <LinkContainer
+                        to="/users/profile"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} far fa-address-card`}
+                          />
+                          Update Profile
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/users/avatar"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} far fa-user-circle`}
+                          />
+                          Update Avatar
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/users/password"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i className={`${classes.socialIcons} fas fa-key`} />
+                          Update Password
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/tutor/skills"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i className={`${classes.socialIcons} fas fa-cogs`} />
+                          Update Skills
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/tutor/updateintroduce"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} fas fa-info-circle`}
+                          />
+                          Update Introduce
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/"
+                        className={classes.dropdownLink}
+                        onClick={() => dispatch(UserActions.SignOut())}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                          />
+                          Sign Out
+                        </div>
+                      </LinkContainer>
+                    ]
+                  : [
+                      <LinkContainer
+                        to="/users/profile"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} far fa-address-card`}
+                          />
+                          Update Profile
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/users/avatar"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} far fa-user-circle`}
+                          />
+                          Update Avatar
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/users/password"
+                        className={classes.dropdownLink}
+                      >
+                        <div>
+                          <i className={`${classes.socialIcons} fas fa-key`} />
+                          Update Password
+                        </div>
+                      </LinkContainer>,
+                      <LinkContainer
+                        to="/"
+                        className={classes.dropdownLink}
+                        onClick={() => dispatch(UserActions.SignOut())}
+                      >
+                        <div>
+                          <i
+                            className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                          />
+                          Sign Out
+                        </div>
+                      </LinkContainer>
+                    ]
+              }
             />
           </ListItem>
         </>

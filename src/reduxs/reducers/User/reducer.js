@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   username: '',
   name: '',
   role: null,
-  token: ''
+  token: '',
+  user: {}
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -32,10 +33,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
         name: '',
         token: '',
         isSignIn: false,
-        isSignUp: false
+        isSignUp: false,
+        user: {}
       };
+    case ActionTypes.GET_PROFILE:
+      return { ...state, user: action.payload };
     case ActionTypes.UPDATE_PROFILE:
-      return { ...state, name: action.payload };
+      return { ...state, name: action.payload.name, user: action.payload.user };
     default:
       return { ...state };
   }

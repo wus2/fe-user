@@ -48,11 +48,22 @@ export default function RegisterPage(props) {
     setCardAnimation('');
   }, 700);
 
+  const drawData = data => {
+    return data.map((val, ind) => {
+      return (
+        <MenuItem key={ind} value={val}>
+          {val}
+        </MenuItem>
+      );
+    });
+  };
+
   const [state, setState] = React.useState({
     username: '',
     name: '',
     email: '',
     address: '',
+    district: '',
     phone: '',
     cardID: '',
     gender: '',
@@ -173,6 +184,20 @@ export default function RegisterPage(props) {
                         )
                       }}
                     />
+                    <FormControl fullWidth className={classes.formControl}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        Khu vực
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="district"
+                        value={state.district}
+                        onChange={handleChange('district')}
+                      >
+                        {drawData(district)}
+                      </Select>
+                    </FormControl>
+
                     <CustomInput
                       labelText="Địa chỉ"
                       id="address"
@@ -240,24 +265,7 @@ export default function RegisterPage(props) {
                         autoComplete: 'off'
                       }}
                     /> */}
-                    {/* <CustomInput
-                      labelText="Ảnh đại diện"
-                      id="avatar"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'file',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <FaceIcon className={classes.inputIconsColor}>
-                              lock_outline
-                            </FaceIcon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    /> */}
+
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         style={{ width: '100%' }}
@@ -342,3 +350,30 @@ export default function RegisterPage(props) {
     </div>
   );
 }
+
+const district = [
+  'Quận 1',
+  'Quận 2',
+  'Quận 3',
+  'Quận 4',
+  'Quận 5',
+  'Quận 6',
+  'Quận 7',
+  'Quận 8',
+  'Quận 9',
+  'Quận 10',
+  'Quận 11',
+  'Quận 12',
+  'Quận Thủ Đức',
+  'Quận Gò Vấp',
+  'Quận Bình Thạnh',
+  'Quận Tân Bình',
+  'Quận Tân Phú',
+  'Quận Phú Nhuận',
+  'Quận Bình Tân',
+  'Huyện Củ Chi',
+  'Huyện Hóc Môn',
+  'Huyện Bình Chánh',
+  'Huyện Nhà Bè',
+  'Huyện Cần Giờ'
+];

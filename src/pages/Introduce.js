@@ -1,24 +1,27 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 // @material-ui/icons
-import { Grid } from '@material-ui/core';
+import { Grid, Divider } from '@material-ui/core';
 import SchoolIcon from '@material-ui/icons/School';
 import CreateIcon from '@material-ui/icons/Create';
 // core components
 import HeaderNav from 'layouts/Header/HeaderNav';
 import Footer from 'layouts/Footer/Footer';
-import Button from 'shared/Components/Button';
 import NavPills from 'shared/Components/NavPills';
 import Parallax from 'shared/Components/Parallax';
+import Star from 'shared/Components/Star';
+import image from 'shared/Img/logo192.png';
 
 import styles from 'shared/Styles/introduceStyle';
 
 const useStyles = makeStyles(styles);
 
 export default function ProfilePage(props) {
+  const userState = useSelector(state => state.userState);
   const classes = useStyles();
   const { ...rest } = props;
   const imageClasses = classNames(
@@ -39,43 +42,74 @@ export default function ProfilePage(props) {
                 <div className={classes.profile}>
                   <div>
                     <img
-                      src={require('shared/Img/logo192.png')}
+                      src={
+                        userState.user.avatar
+                          ? `https://wusbeuser.herokuapp.com${userState.user.avatar}`
+                          : image
+                      }
                       alt="..."
                       className={imageClasses}
                     />
                   </div>
                   <div className={classes.name}>
-                    <h3 className={classes.title}>Nguyen Dung</h3>
+                    <h3 className={classes.title}>{userState.user.name}</h3>
                     <b>
                       <h4>DESIGNER</h4>
                     </b>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className="fas fa-star" />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className="fas fa-star" />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className="fas fa-star" />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className="fas fa-star" />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className="fas fa-star" />
-                    </Button>
+                    <Star star={userState.user.rate} />
+                  </div>
+                  <Divider className={classes.divider} />
+                  <div className={classes.name}>
+                    <h3 className={classes.title}>{userState.user.name}</h3>
+                    <b>
+                      <h4>THÔNG TIN CHI TIẾT</h4>
+                    </b>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Họ tên:</b> {userState.user.name}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Địa chỉ:</b> {userState.user.address},{' '}
+                      {userState.user.district}, TP. Hồ Chí Minh
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Email:</b> {userState.user.email}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Giới tính:</b> {userState.user.gender}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Ngày sinh:</b> {userState.user.dob}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Liên hệ:</b> {userState.user.phone}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Giá tiền(VNĐ/giờ):</b> {userState.user.price}
+                    </p>
+                  </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Giới thiệu:</b> {userState.user.intro_desc}
+                    </p>
                   </div>
                 </div>
+                <Divider className={classes.divider} />
               </Grid>
             </Grid>
-            <div className={classes.description}>
-              <p>
-                An artist of considerable range, Chet Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.{' '}
-              </p>
-            </div>
             <Grid container justify="center">
               <Grid item xs={12} sm={12} md={8} className={classes.navWrapper}>
                 <NavPills
@@ -83,7 +117,7 @@ export default function ProfilePage(props) {
                   color="primary"
                   tabs={[
                     {
-                      tabButton: 'Khóa Học',
+                      tabButton: 'Kỹ Năng',
                       tabIcon: SchoolIcon,
                       tabContent: (
                         <Grid container justify="center">
@@ -115,7 +149,7 @@ export default function ProfilePage(props) {
                       )
                     },
                     {
-                      tabButton: 'Kỹ Năng',
+                      tabButton: 'Nhận Xét',
                       tabIcon: CreateIcon,
                       tabContent: (
                         <Grid container justify="center">
@@ -158,7 +192,7 @@ export default function ProfilePage(props) {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer whiteFont />
     </div>
   );
 }
