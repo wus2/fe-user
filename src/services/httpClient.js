@@ -4,6 +4,7 @@ const instance = axios.create({
   baseURL: 'https://wusbeuser.herokuapp.com',
   timeout: 10000,
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'origin, x-requested-with, content-type',
@@ -13,7 +14,7 @@ const instance = axios.create({
 
 export const SignIn = async (username, password) => {
   try {
-    const response = await instance.post('/users/login', {
+    const response = await instance.post('/user/login', {
       username,
       password
     });
@@ -38,7 +39,7 @@ export const SignUp = async state => {
     password
   } = state;
   try {
-    const response = await instance.post('/users/register', {
+    const response = await instance.post('/user/register', {
       username,
       name,
       email,
@@ -60,7 +61,7 @@ export const SignUp = async state => {
 export const GetProfile = async () => {
   try {
     const token = window.localStorage.getItem('token');
-    const response = await instance.get('/users/profile', {
+    const response = await instance.get('/user/profile', {
       headers: { Authorization: `Bearer ${token}` }
     });
     // console.log(response);
@@ -76,7 +77,7 @@ export const UpdateProfile = async state => {
   const { name, address, phone, cardID, gender, dob, district, price } = state;
   try {
     const response = await instance.post(
-      '/users/updateprofile',
+      '/user/updateprofile',
       {
         name,
         address,
@@ -105,7 +106,7 @@ export const UpdatePassword = async state => {
   try {
     const token = window.localStorage.getItem('token');
     const response = await instance.post(
-      '/users/updatepassword',
+      '/user/updatepassword',
       {
         email,
         password
@@ -132,7 +133,7 @@ export const UpdateAvatar = async data => {
     }
   };
   try {
-    const response = await instance.post('/users/updateavatar', data, config);
+    const response = await instance.post('/user/updateavatar', data, config);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -148,7 +149,7 @@ export const UpdateSkill = async skills => {
     }
   };
   try {
-    const response = await instance.post(
+    const response = await instance.put(
       '/tutor/updateskills',
       { skills },
       config
@@ -173,6 +174,41 @@ export const UpdateIntroduce = async introDesc => {
       { introDesc },
       config
     );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetSkills = async () => {
+  try {
+    const token = window.localStorage.getItem('token');
+    const response = await instance.get('/tutor/getallskills', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetListTutor = async offset => {
+  try {
+    const response = await instance.get(
+      `tutor/getlist/offset/${offset}/limit/16`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetProfileTutor = async tutorID => {
+  try {
+    const response = await instance.get(`/tutor/getprofile/${tutorID}`);
     return response.data;
   } catch (error) {
     console.error(error);

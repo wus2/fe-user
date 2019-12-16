@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-// core components
-import HeaderNav from 'layouts/Header/HeaderNav';
-import Footer from 'layouts/Footer/Footer';
 
 import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import Button from 'shared/Components/Button';
 import Card from 'shared/Components/Card/Card';
 import CardBody from 'shared/Components/Card/CardBody';
@@ -28,7 +26,7 @@ export default function UpdateIntroduce(props) {
     setCardAnimation('');
   }, 700);
   const userState = useSelector(state => state.userState);
-
+  const { errors } = userState;
   const [introDesc, setIntroduce] = React.useState(null);
 
   const dispatch = useDispatch();
@@ -39,12 +37,10 @@ export default function UpdateIntroduce(props) {
   const handleSubmit = event => {
     event.preventDefault();
     dispatch(UserActions.UpdateIntroduce(introDesc));
-    dispatch(UserActions.GetProfile());
   };
 
   return (
     <div>
-      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -56,6 +52,20 @@ export default function UpdateIntroduce(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
+                />
+              ) : (
+                ''
+              )}
               <Card className={classes[cardAnimaton]}>
                 <form
                   className={classes.form}
@@ -86,7 +96,6 @@ export default function UpdateIntroduce(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

@@ -19,13 +19,13 @@ class Routers extends React.PureComponent {
       <Router history={history}>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/users/login" component={SignIn} />
-          <Route exact path="/users/register" component={SignUp} />
-          <Route exact path="/users/profile" component={UpdateProfile} />
-          <Route exact path="/users/avatar" component={UpdateAvatar} />
-          <Route exact path="/users/password" component={UpdatePassword} />
+          <Route exact path="/user/login" component={SignIn} />
+          <Route exact path="/user/register" component={SignUp} />
+          <Route exact path="/user/profile" component={UpdateProfile} />
+          <Route exact path="/user/avatar" component={UpdateAvatar} />
+          <Route exact path="/user/password" component={UpdatePassword} />
           <Route exact path="/tutor/skills" component={UpdateSkills} />
-          <Route exact path="/tutor/introduce" component={Introduce} />
+          <Route exact path="/tutor/introduce/:tutorID" component={Introduce} />
           <Route
             exact
             path="/tutor/updateintroduce"

@@ -1,17 +1,18 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import history from 'historyConfig';
 // nodejs library that concatenates classes
+import moment from 'moment';
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 // @material-ui/icons
 import { Grid, Divider } from '@material-ui/core';
-import SchoolIcon from '@material-ui/icons/School';
-import CreateIcon from '@material-ui/icons/Create';
+import Button from 'shared/Components/Button';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
 // core components
-import HeaderNav from 'layouts/Header/HeaderNav';
-import Footer from 'layouts/Footer/Footer';
-import NavPills from 'shared/Components/NavPills';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import Parallax from 'shared/Components/Parallax';
 import Star from 'shared/Components/Star';
 import image from 'shared/Img/logo192.png';
@@ -20,179 +21,153 @@ import styles from 'shared/Styles/introduceStyle';
 
 const useStyles = makeStyles(styles);
 
-export default function ProfilePage(props) {
-  const userState = useSelector(state => state.userState);
+export default function Introduce(props) {
   const classes = useStyles();
   const { ...rest } = props;
+  const dispatch = useDispatch();
+  const userState = useSelector(state => state.userState);
+  const { tutor, errors, isSignIn } = userState;
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
     classes.imgFluid
   );
-  const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
   return (
     <div>
-      <HeaderNav />
       <Parallax small filter image={require('shared/Img/bg7.jpg')} />
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
             <Grid container justify="center">
-              <Grid item xs={12} sm={12} md={6}>
-                <div className={classes.profile}>
-                  <div>
-                    <img
-                      src={
-                        userState.user.avatar
-                          ? `https://wusbeuser.herokuapp.com${userState.user.avatar}`
-                          : image
-                      }
-                      alt="..."
-                      className={imageClasses}
-                    />
-                  </div>
-                  <div className={classes.name}>
-                    <h3 className={classes.title}>{userState.user.name}</h3>
-                    <b>
-                      <h4>DESIGNER</h4>
-                    </b>
-                    <Star star={userState.user.rate} />
-                  </div>
-                  <Divider className={classes.divider} />
-                  <div className={classes.name}>
-                    <h3 className={classes.title}>{userState.user.name}</h3>
-                    <b>
-                      <h4>THÔNG TIN CHI TIẾT</h4>
-                    </b>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Họ tên:</b> {userState.user.name}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Địa chỉ:</b> {userState.user.address},{' '}
-                      {userState.user.district}, TP. Hồ Chí Minh
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Email:</b> {userState.user.email}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Giới tính:</b> {userState.user.gender}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Ngày sinh:</b> {userState.user.dob}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Liên hệ:</b> {userState.user.phone}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Giá tiền(VNĐ/giờ):</b> {userState.user.price}
-                    </p>
-                  </div>
-                  <div className={classes.description}>
-                    <p>
-                      <b>Giới thiệu:</b> {userState.user.intro_desc}
-                    </p>
-                  </div>
-                </div>
-                <Divider className={classes.divider} />
-              </Grid>
-            </Grid>
-            <Grid container justify="center">
-              <Grid item xs={12} sm={12} md={8} className={classes.navWrapper}>
-                <NavPills
-                  alignCenter
-                  color="primary"
-                  tabs={[
-                    {
-                      tabButton: 'Kỹ Năng',
-                      tabIcon: SchoolIcon,
-                      tabContent: (
-                        <Grid container justify="center">
-                          <Grid item xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                          </Grid>
-                        </Grid>
-                      )
-                    },
-                    {
-                      tabButton: 'Nhận Xét',
-                      tabIcon: CreateIcon,
-                      tabContent: (
-                        <Grid container justify="center">
-                          <Grid item xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={require('shared/Img/bg.jpg')}
-                              className={navImageClasses}
-                            />
-                          </Grid>
-                        </Grid>
-                      )
-                    }
-                  ]}
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
                 />
-              </Grid>
+              ) : (
+                <>
+                  <Grid item xs={12} sm={12} md={6}>
+                    <div className={classes.profile}>
+                      <div>
+                        <img
+                          src={
+                            tutor.avatar
+                              ? `https://wusbeuser.herokuapp.com${tutor.avatar}`
+                              : image
+                          }
+                          alt="..."
+                          className={imageClasses}
+                        />
+                      </div>
+                      <div>
+                        <b>
+                          <h4>{tutor.degree}</h4>
+                        </b>
+                        <Star star={tutor.rate} />
+                      </div>
+                      <Divider className={classes.divider} />
+                      <div>
+                        <b>
+                          <h4>THÔNG TIN CHI TIẾT</h4>
+                        </b>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Họ tên:</b> {tutor.name}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Địa chỉ:</b> {tutor.address}, {tutor.district}, TP.
+                          Hồ Chí Minh
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Email:</b> {tutor.email}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Giới tính:</b> {tutor.gender}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Ngày sinh:</b>{' '}
+                          {moment(tutor.dob).format('DD-MM-YYYY')}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Liên hệ:</b> {tutor.phone}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Giá tiền(VNĐ/giờ):</b> {tutor.price}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <b>Giới thiệu:</b> {tutor.intro_desc}
+                        </p>
+                      </div>
+                      <div className={classes.description}>
+                        <p>
+                          <List
+                            className={classes.flex}
+                            component="nav"
+                            aria-label="secondary mailbox folder"
+                          >
+                            {tutor.skill_tags
+                              ? tutor.skill_tags.map(item => {
+                                  return (
+                                    <ListItem className={classes.skilltags}>
+                                      {item}
+                                    </ListItem>
+                                  );
+                                })
+                              : ''}
+                          </List>
+                        </p>
+                      </div>
+                      <Divider className={classes.divider} />
+                      <div>
+                        <b>
+                          <h4>Đánh Giá</h4>
+                        </b>
+                      </div>
+                    </div>
+                  </Grid>
+                  {isSignIn ? (
+                    <>
+                      <Divider className={classes.divider} />
+                      <Button
+                        onClick={() => {
+                          history.push('/');
+                        }}
+                        size="sm"
+                        color="primary"
+                      >
+                        Giao Dịch
+                      </Button>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </>
+              )}
             </Grid>
           </div>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

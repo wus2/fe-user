@@ -6,28 +6,29 @@ import history from 'historyConfig';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import Money from '@material-ui/icons/MonetizationOn';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
+import Money from '@material-ui/icons/MonetizationOn';
 import Email from '@material-ui/icons/Email';
 import HomeIcon from '@material-ui/icons/Home';
+import PhoneIcon from '@material-ui/icons/Phone';
+import People from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
+import CardID from '@material-ui/icons/RecentActors';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
-import People from '@material-ui/icons/People';
-// core components
-import HeaderNav from 'layouts/Header/HeaderNav';
-import Footer from 'layouts/Footer/Footer';
 
 import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import Button from 'shared/Components/Button';
 import Card from 'shared/Components/Card/Card';
 import CardBody from 'shared/Components/Card/CardBody';
@@ -41,65 +42,67 @@ const useStyles = makeStyles(styles);
 
 export default function UpdateProfile(props) {
   const dispatch = useDispatch();
-
   const [cardAnimaton, setCardAnimation] = React.useState('cardHidden');
   setTimeout(() => {
     setCardAnimation('');
   }, 700);
   const userState = useSelector(state => state.userState);
+  const { errors } = userState;
 
   const drawData = data => {
-    return data.map((val, ind) => {
-      return (
-        <MenuItem key={ind} value={val}>
-          {val}
-        </MenuItem>
-      );
+    return data.map(val => {
+      return <MenuItem value={val}>{val}</MenuItem>;
     });
   };
 
   const data = [
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'Username',
+      id: 'username',
+      type: 'text',
+      read: true,
+      dfValue: userState.user.username,
+      icon: PersonIcon
     },
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'Họ tên',
+      id: 'name',
+      type: 'text',
+      read: false,
+      dfValue: userState.user.name,
+      icon: People
     },
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'Email',
+      id: 'email',
+      type: 'email',
+      read: true,
+      dfValue: userState.user.email,
+      icon: Email
     },
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'Số điện thoại',
+      id: 'phone',
+      type: 'text',
+      read: false,
+      dfValue: userState.user.phone,
+      icon: PhoneIcon
     },
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'CMND',
+      id: 'cardID',
+      type: 'text',
+      read: false,
+      dfValue: userState.user.card_id,
+      icon: CardID
     },
     {
-      label: '',
-      id: '',
-      type: '',
-      read: false
-    },
-    {
-      label: '',
-      id: '',
-      type: '',
-      read: false
+      label: 'Địa chỉ',
+      id: 'address',
+      type: 'text',
+      read: false,
+      dfValue: userState.user.address,
+      icon: HomeIcon
     }
   ];
 
@@ -113,7 +116,7 @@ export default function UpdateProfile(props) {
     cardID: null,
     gender: null,
     price: null,
-    dob: null
+    dob: userState.user.dob
   });
 
   const handleChange = prop => event => {
@@ -129,7 +132,6 @@ export default function UpdateProfile(props) {
   const { ...rest } = props;
   return (
     <div>
-      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -141,66 +143,51 @@ export default function UpdateProfile(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
+                />
+              ) : (
+                ''
+              )}
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h2>Update Profile</h2>
                   </CardHeader>
                   <CardBody>
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.username}
-                      handleChange={handleChange('username')}
-                      inputProps={{
-                        type: 'text',
-                        readOnly: true,
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Họ tên"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.name}
-                      handleChange={handleChange('name')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+                    {data.map(item => {
+                      return (
+                        <CustomInput
+                          labelText={item.label}
+                          id={item.id}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          defaultVL={item.dfValue}
+                          handleChange={handleChange(item.id)}
+                          inputProps={{
+                            type: `${item.type}`,
+                            readOnly: `${item.read}`,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <item.icon
+                                  className={classes.inputIconsColor}
+                                />
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                      );
+                    })}
 
-                    <CustomInput
-                      labelText="Email"
-                      id="email"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.email}
-                      handleChange={handleChange('email')}
-                      inputProps={{
-                        type: 'email',
-                        readOnly: true,
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
                     <FormControl fullWidth className={classes.formControl}>
                       <InputLabel id="demo-simple-select-helper-label">
                         Khu vực
@@ -214,57 +201,7 @@ export default function UpdateProfile(props) {
                         {drawData(district)}
                       </Select>
                     </FormControl>
-                    <CustomInput
-                      labelText="Địa chỉ"
-                      id="address"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.address}
-                      handleChange={handleChange('address')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <HomeIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Số điện thoại"
-                      id="phone"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.phone}
-                      handleChange={handleChange('phone')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="CMND"
-                      id="cardID"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      defaultVL={userState.user.card_id}
-                      handleChange={handleChange('cardID')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+
                     {userState.user.role === 1 ? (
                       <CustomInput
                         labelText="Giá tiền (VNĐ/giờ)"
@@ -272,7 +209,7 @@ export default function UpdateProfile(props) {
                         formControlProps={{
                           fullWidth: true
                         }}
-                        defaultVL={userState.user.price}
+                        defaultVL={userState.user.price_per_hour}
                         handleChange={handleChange('price')}
                         inputProps={{
                           type: 'number',
@@ -296,7 +233,7 @@ export default function UpdateProfile(props) {
                         margin="normal"
                         id="dob"
                         label="Ngày sinh"
-                        value={userState.user.dob}
+                        value={state.dob}
                         onChange={handleDateChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date'
@@ -325,7 +262,6 @@ export default function UpdateProfile(props) {
                       size="lg"
                       onClick={() => {
                         dispatch(UserActions.UpdateProfile(state));
-                        dispatch(UserActions.GetProfile());
                       }}
                     >
                       Update
@@ -337,7 +273,6 @@ export default function UpdateProfile(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

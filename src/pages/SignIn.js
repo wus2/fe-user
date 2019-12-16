@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from 'reduxs/reducers/User/action';
 
 // @material-ui/core components
@@ -9,16 +9,15 @@ import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
 import People from '@material-ui/icons/People';
 // core components
-import HeaderNav from 'layouts/Header/HeaderNav';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
 import Card from 'shared/Components/Card/Card';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
 import CardFooter from 'shared/Components/Card/CardFooter';
 import CustomInput from 'shared/Components/CustomInput';
-import Footer from 'layouts/Footer/Footer';
 import styles from 'shared/Styles/loginPage';
 
 const useStyles = makeStyles(styles);
@@ -29,6 +28,8 @@ export default function LoginPage(props) {
     username: '',
     password: ''
   });
+  const userState = useSelector(state => state.userState);
+  const { errors } = userState;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -44,7 +45,6 @@ export default function LoginPage(props) {
 
   return (
     <div>
-      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -56,6 +56,20 @@ export default function LoginPage(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
+                />
+              ) : (
+                ''
+              )}
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
@@ -63,19 +77,17 @@ export default function LoginPage(props) {
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
-                        href="https://wusbeuser.herokuapp.com/users/auth/facebook"
+                        href="https://wusbeuser.herokuapp.com/user/auth/facebook"
                         target="_blank"
                         color="transparent"
-                        // onClick={e => e.preventDefault()}
                       >
                         <i className="fab fa-facebook" />
                       </Button>
                       <Button
                         justIcon
-                        href="https://wusbeuser.herokuapp.com/users/auth/google"
+                        href="https://wusbeuser.herokuapp.com/user/auth/google"
                         target="_blank"
                         color="transparent"
-                        // onClick={e => e.preventDefault()}
                       >
                         <i className="fab fa-google-plus-g" />
                       </Button>
@@ -86,11 +98,15 @@ export default function LoginPage(props) {
                     <CustomInput
                       labelText=" Username"
                       id="username"
+                      error={errors}
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        className: classes.formControlClassName
                       }}
                       handleChange={handleChange('username')}
                       inputProps={{
+                        required: true,
+                        name: 'username',
                         type: 'text',
                         endAdornment: (
                           <InputAdornment position="end">
@@ -102,11 +118,15 @@ export default function LoginPage(props) {
                     <CustomInput
                       labelText="Mật khẩu"
                       id="password"
+                      error={errors}
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        className: classes.formControlClassName
                       }}
                       handleChange={handleChange('password')}
                       inputProps={{
+                        required: true,
+                        name: 'password',
                         type: 'password',
                         endAdornment: (
                           <InputAdornment position="end">
@@ -125,7 +145,6 @@ export default function LoginPage(props) {
                         dispatch(
                           UserActions.SignIn(state.username, state.password)
                         );
-                        dispatch(UserActions.GetProfile());
                       }}
                       simple
                       color="primary"
@@ -143,7 +162,6 @@ export default function LoginPage(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

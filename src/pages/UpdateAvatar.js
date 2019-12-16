@@ -1,21 +1,17 @@
 import React from 'react';
 import * as UserActions from 'reduxs/reducers/User/action';
-import * as UserHandler from 'reduxs/handlers/UserHandler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FaceIcon from '@material-ui/icons/Face';
-
-// core components
-import HeaderNav from 'layouts/Header/HeaderNav';
-import Footer from 'layouts/Footer/Footer';
 
 import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import Card from 'shared/Components/Card/Card';
 import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
@@ -32,6 +28,8 @@ export default function UpadateAvatar(props) {
   }, 700);
 
   const [avatar, setAvatar] = React.useState(null);
+  const userState = useSelector(state => state.userState);
+  const { errors } = userState;
 
   const dispatch = useDispatch();
 
@@ -48,7 +46,6 @@ export default function UpadateAvatar(props) {
 
   return (
     <div>
-      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -60,6 +57,20 @@ export default function UpadateAvatar(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
+                />
+              ) : (
+                ''
+              )}
               <Card className={classes[cardAnimaton]}>
                 <form
                   className={classes.form}
@@ -103,7 +114,6 @@ export default function UpadateAvatar(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

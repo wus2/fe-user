@@ -1,5 +1,4 @@
 import React from 'react';
-import * as UserHandler from 'reduxs/handlers/UserHandler';
 import * as UserActions from 'reduxs/reducers/User/action';
 import { useSelector, useDispatch } from 'react-redux';
 // @material-ui/core components
@@ -9,8 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import Search from '@material-ui/icons/Search';
 import Tooltip from '@material-ui/core/Tooltip';
 // @material-ui/icons
-import { LinkContainer } from 'react-router-bootstrap';
 // core components
+import history from 'historyConfig';
 import CustomDropdown from 'shared/Components/CustomDropdown';
 import Button from 'shared/Components/Button';
 import CustomInput from 'shared/Components/CustomInput';
@@ -19,15 +18,51 @@ import image from 'shared/Img/logo192.png';
 
 const useStyles = makeStyles(styles);
 
-export default function HeaderLinks(props) {
+export default function Temp(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const userState = useSelector(state => state.userState);
-  const { isSignIn, name } = userState;
 
-  if (!isSignIn && window.localStorage.getItem('token') !== null) {
-    dispatch(UserActions.GetProfile());
-  }
+  const userState = useSelector(state => state.userState);
+  const { isSignIn, name, avatar, role } = userState;
+
+  const dataUser = [
+    <div
+      onClick={() => {
+        dispatch(UserActions.emitRemoveErrorAction());
+        history.push('/user/profile');
+      }}
+      className={classes.dropdownLink}
+    >
+      <div>
+        <i className={`${classes.socialIcons} far fa-address-card`} />
+        Update Profile
+      </div>
+    </div>,
+    <div
+      onClick={() => {
+        dispatch(UserActions.emitRemoveErrorAction());
+        history.push('/user/avatar');
+      }}
+      className={classes.dropdownLink}
+    >
+      <div>
+        <i className={`${classes.socialIcons} far fa-user-circle`} />
+        Update Avatar
+      </div>
+    </div>,
+    <div
+      onClick={() => {
+        dispatch(UserActions.emitRemoveErrorAction());
+        history.push('/user/password');
+      }}
+      className={classes.dropdownLink}
+    >
+      <div>
+        <i className={`${classes.socialIcons} fas fa-key`} />
+        Update Password
+      </div>
+    </div>
+  ];
 
   return (
     <List className={classes.list}>
@@ -76,9 +111,7 @@ export default function HeaderLinks(props) {
               buttonText={
                 <img
                   src={
-                    userState.user.avatar
-                      ? `https://wusbeuser.herokuapp.com${userState.user.avatar}`
-                      : image
+                    avatar ? `https://wusbeuser.herokuapp.com${avatar}` : image
                   }
                   className={classes.img}
                   alt="profile"
@@ -89,50 +122,25 @@ export default function HeaderLinks(props) {
                 color: 'transparent'
               }}
               dropdownList={
-                userState.user.role === 1
-                  ? [
-                      <LinkContainer
-                        to="/users/profile"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} far fa-address-card`}
-                          />
-                          Update Profile
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/users/avatar"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} far fa-user-circle`}
-                          />
-                          Update Avatar
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/users/password"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i className={`${classes.socialIcons} fas fa-key`} />
-                          Update Password
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/tutor/skills"
+                role === 1
+                  ? dataUser.concat([
+                      <div
+                        onClick={() => {
+                          dispatch(UserActions.emitRemoveErrorAction());
+                          history.push('/tutor/skills');
+                        }}
                         className={classes.dropdownLink}
                       >
                         <div>
                           <i className={`${classes.socialIcons} fas fa-cogs`} />
                           Update Skills
                         </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/tutor/updateintroduce"
+                      </div>,
+                      <div
+                        onClick={() => {
+                          dispatch(UserActions.emitRemoveErrorAction());
+                          history.push('/tutor/updateintroduce');
+                        }}
                         className={classes.dropdownLink}
                       >
                         <div>
@@ -141,9 +149,8 @@ export default function HeaderLinks(props) {
                           />
                           Update Introduce
                         </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/"
+                      </div>,
+                      <div
                         className={classes.dropdownLink}
                         onClick={() => dispatch(UserActions.SignOut())}
                       >
@@ -153,42 +160,10 @@ export default function HeaderLinks(props) {
                           />
                           Sign Out
                         </div>
-                      </LinkContainer>
-                    ]
-                  : [
-                      <LinkContainer
-                        to="/users/profile"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} far fa-address-card`}
-                          />
-                          Update Profile
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/users/avatar"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} far fa-user-circle`}
-                          />
-                          Update Avatar
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/users/password"
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i className={`${classes.socialIcons} fas fa-key`} />
-                          Update Password
-                        </div>
-                      </LinkContainer>,
-                      <LinkContainer
-                        to="/"
+                      </div>
+                    ])
+                  : dataUser.concat([
+                      <div
                         className={classes.dropdownLink}
                         onClick={() => dispatch(UserActions.SignOut())}
                       >
@@ -198,8 +173,8 @@ export default function HeaderLinks(props) {
                           />
                           Sign Out
                         </div>
-                      </LinkContainer>
-                    ]
+                      </div>
+                    ])
               }
             />
           </ListItem>
@@ -207,7 +182,12 @@ export default function HeaderLinks(props) {
       ) : (
         <>
           <ListItem className={classes.listItem}>
-            <LinkContainer to="/users/register">
+            <div
+              onClick={() => {
+                dispatch(UserActions.emitRemoveErrorAction());
+                history.push('/user/register');
+              }}
+            >
               <Button
                 color="transparent"
                 target="_blank"
@@ -216,10 +196,15 @@ export default function HeaderLinks(props) {
                 <i className={`${classes.socialIcons} fas fa-registered`} />
                 Sign Up
               </Button>
-            </LinkContainer>
+            </div>
           </ListItem>
           <ListItem className={classes.listItem}>
-            <LinkContainer to="/users/login">
+            <div
+              onClick={() => {
+                dispatch(UserActions.emitRemoveErrorAction());
+                history.push('/user/login');
+              }}
+            >
               <Button
                 color="transparent"
                 target="_blank"
@@ -228,7 +213,7 @@ export default function HeaderLinks(props) {
                 <i className={`${classes.socialIcons} fas fa-sign-in-alt`} />{' '}
                 Sign In
               </Button>
-            </LinkContainer>
+            </div>
           </ListItem>
           <ListItem className={classes.listItem}>
             <Tooltip
@@ -240,7 +225,7 @@ export default function HeaderLinks(props) {
               <Button
                 color="transparent"
                 target="_blank"
-                href="https://wusbeuser.herokuapp.com/users/auth/facebook"
+                href="https://wusbeuser.herokuapp.com/user/auth/facebook"
                 className={classes.navLink}
               >
                 <i className={`${classes.socialIcons} fab fa-facebook`} />
@@ -257,7 +242,7 @@ export default function HeaderLinks(props) {
               <Button
                 color="transparent"
                 target="_blank"
-                href="https://wusbeuser.herokuapp.com/users/auth/google"
+                href="https://wusbeuser.herokuapp.com/user/auth/google"
                 className={classes.navLink}
               >
                 <i className={`${classes.socialIcons} fab fa-google`} />

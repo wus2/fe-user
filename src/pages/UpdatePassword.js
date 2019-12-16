@@ -7,15 +7,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 // @material-ui/icons
 import Email from '@material-ui/icons/Email';
 import Icon from '@material-ui/core/Icon';
-// core components
-import HeaderNav from 'layouts/Header/HeaderNav';
-import Footer from 'layouts/Footer/Footer';
 
 import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
 import Button from 'shared/Components/Button';
+import SnackbarContent from 'shared/Components/SnackbarContent';
 import Card from 'shared/Components/Card/Card';
 import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
@@ -47,7 +45,6 @@ export default function UpdatePassword(props) {
   const { ...rest } = props;
   return (
     <div>
-      <HeaderNav />
       <div
         className={classes.pageHeader}
         style={{
@@ -59,6 +56,16 @@ export default function UpdatePassword(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              <SnackbarContent
+                message={
+                  <span>
+                    <b>Please check your email to confirm account</b>
+                  </span>
+                }
+                close
+                color="success"
+                icon="info_outline"
+              />
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
@@ -119,7 +126,6 @@ export default function UpdatePassword(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }

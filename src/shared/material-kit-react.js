@@ -179,6 +179,12 @@ const cardSubtitle = {
   marginTop: '-.375rem'
 };
 
+const divider = {
+  margin: '20px 0px',
+  width: '100%',
+  alignSelf: 'center'
+};
+
 export {
   // variables
   drawerWidth,
@@ -213,5 +219,6 @@ export {
   title,
   cardTitle,
   cardLink,
-  cardSubtitle
+  cardSubtitle,
+  divider
 };

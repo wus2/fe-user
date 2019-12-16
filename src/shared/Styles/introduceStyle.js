@@ -61,6 +61,22 @@ const profilePageStyle = {
     margin: '20px 0px',
     width: '100%',
     alignSelf: 'center'
+  },
+  flex: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  skilltags: {
+    background: '#e0e0e0',
+    borderRadius: '4px',
+    color: '#222',
+    fontSize: '14px',
+    display: 'inline-block',
+    padding: '5px 8px',
+    lineHeight: '1',
+    margin: '2px 2px 2px 0',
+    width: 'auto'
   }
 };
 

@@ -14,8 +14,8 @@ import Drawer from '@material-ui/core/Drawer';
 // @material-ui/icons
 import Menu from '@material-ui/icons/Menu';
 // core components
-import { LinkContainer } from 'react-router-bootstrap';
-import styles from 'shared/Styles/headerStyle.js';
+import styles from 'shared/Styles/headerStyle';
+import history from 'historyConfig';
 
 const useStyles = makeStyles(styles);
 
@@ -62,9 +62,9 @@ export default function Header(props) {
     [classes.fixed]: fixed
   });
   const brandComponent = (
-    <LinkContainer to="/">
-      <Button className={classes.title}>{brand}</Button>
-    </LinkContainer>
+    <Button onClick={() => history.push('/')} className={classes.title}>
+      {brand}
+    </Button>
   );
   return (
     <AppBar className={appBarClasses}>

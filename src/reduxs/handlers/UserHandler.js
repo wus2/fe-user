@@ -45,3 +45,18 @@ export const UpdateIntroduce = async introDesc => {
   console.log(rs);
   return rs;
 };
+
+export const GetSkills = async () => {
+  const rs = await HttpClient.GetSkills();
+  return rs;
+};
+
+export const GetListTutor = async offset => {
+  const rs = await HttpClient.GetListTutor(offset);
+  return rs;
+};
+
+export const GetProfileTutor = async tutorID => {
+  const rs = await HttpClient.GetProfileTutor(tutorID);
+  return rs;
+};
