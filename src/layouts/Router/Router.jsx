@@ -4,6 +4,7 @@ import history from 'historyConfig';
 import Home from 'pages/Home';
 import SignIn from 'pages/SignIn';
 import SignUp from 'pages/SignUp';
+import Deal from 'pages/Deal';
 import UpdateProfile from 'pages/UpdateProfile';
 import UpdateAvatar from 'pages/UpdateAvatar';
 import UpdateSkills from 'pages/UpdateSkills';
@@ -19,11 +20,13 @@ class Routers extends React.PureComponent {
       <Router history={history}>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/page/:page" component={Home} />
           <Route exact path="/user/login" component={SignIn} />
           <Route exact path="/user/register" component={SignUp} />
           <Route exact path="/user/profile" component={UpdateProfile} />
           <Route exact path="/user/avatar" component={UpdateAvatar} />
           <Route exact path="/user/password" component={UpdatePassword} />
+          <Route exact path="/user/deal/:tutorID" component={Deal} />
           <Route exact path="/tutor/skills" component={UpdateSkills} />
           <Route exact path="/tutor/introduce/:tutorID" component={Introduce} />
           <Route

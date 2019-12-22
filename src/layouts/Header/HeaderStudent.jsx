@@ -14,7 +14,6 @@ const useStyles = makeStyles(styles);
 
 export default function HeaderStudent(props) {
   const classes = useStyles();
-  const { ...rest } = props;
   const userState = useSelector(state => state.userState);
 
   const dataDistricts = [];
@@ -111,6 +110,18 @@ export default function HeaderStudent(props) {
           >
             <i className={`${classes.socialIcons} fas fa-star`} />
             Top Gia Sư
+          </Button>
+        </div>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <div onClick={() => history.push('/tutee/contracthistory')}>
+          <Button
+            color="transparent"
+            target="_blank"
+            className={classes.navLink}
+          >
+            <i className={`${classes.socialIcons} fas fa-history`} />
+            Lịch Sử
           </Button>
         </div>
       </ListItem>

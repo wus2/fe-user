@@ -10,7 +10,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
-import Warning from '@material-ui/icons/Warning';
 import Email from '@material-ui/icons/Email';
 import HomeIcon from '@material-ui/icons/Home';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -88,7 +87,6 @@ export default function RegisterPage(props) {
   };
 
   const classes = useStyles();
-  const { ...rest } = props;
   return (
     <div>
       <div

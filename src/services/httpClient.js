@@ -197,7 +197,7 @@ export const GetSkills = async () => {
 export const GetListTutor = async offset => {
   try {
     const response = await instance.get(
-      `tutor/getlist/offset/${offset}/limit/16`
+      `tutor/getlist/page/${offset}/limit/12`
     );
     return response.data;
   } catch (error) {
@@ -209,6 +209,40 @@ export const GetListTutor = async offset => {
 export const GetProfileTutor = async tutorID => {
   try {
     const response = await instance.get(`/tutor/getprofile/${tutorID}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const RentTutor = async state => {
+  const token = window.localStorage.getItem('token');
+  const {
+    startTime,
+    tutorID,
+    tutorUsername,
+    rentTime,
+    rentPrice,
+    description
+  } = state;
+  try {
+    const response = await instance.post(
+      '/tutee/renttutor',
+      {
+        startTime,
+        tutorID,
+        tutorUsername,
+        rentTime,
+        rentPrice,
+        description
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);

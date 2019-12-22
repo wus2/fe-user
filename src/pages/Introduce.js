@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import history from 'historyConfig';
 // nodejs library that concatenates classes
 import moment from 'moment';
@@ -23,8 +23,6 @@ const useStyles = makeStyles(styles);
 
 export default function Introduce(props) {
   const classes = useStyles();
-  const { ...rest } = props;
-  const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
   const { tutor, errors, isSignIn } = userState;
   const imageClasses = classNames(
@@ -111,7 +109,7 @@ export default function Introduce(props) {
                       </div>
                       <div className={classes.description}>
                         <p>
-                          <b>Giá tiền(VNĐ/giờ):</b> {tutor.price}
+                          <b>Giá tiền(VNĐ/giờ):</b> {tutor.price_per_hour}
                         </p>
                       </div>
                       <div className={classes.description}>
@@ -151,7 +149,7 @@ export default function Introduce(props) {
                       <Divider className={classes.divider} />
                       <Button
                         onClick={() => {
-                          history.push('/');
+                          history.push(`/user/deal/${tutor.id}`);
                         }}
                         size="sm"
                         color="primary"

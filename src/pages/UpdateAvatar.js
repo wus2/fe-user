@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FaceIcon from '@material-ui/icons/Face';
 
-import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
@@ -34,7 +33,6 @@ export default function UpadateAvatar(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const { ...rest } = props;
 
   const handleSubmit = event => {
     event.preventDefault();

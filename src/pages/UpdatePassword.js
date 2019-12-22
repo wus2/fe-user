@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as UserActions from 'reduxs/reducers/User/action';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Email from '@material-ui/icons/Email';
 import Icon from '@material-ui/core/Icon';
 
-import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
@@ -42,7 +41,6 @@ export default function UpdatePassword(props) {
   };
 
   const classes = useStyles();
-  const { ...rest } = props;
   return (
     <div>
       <div

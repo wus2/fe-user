@@ -2,6 +2,7 @@ import * as UserHandler from 'reduxs/handlers/UserHandler';
 import { isNull } from 'util';
 import history from 'historyConfig';
 import store from 'store';
+import io from 'socket.io-client';
 import ActionTypes from './actionTypes';
 
 export const emitSignInAction = user => {
@@ -247,4 +248,35 @@ export const GetTutorProfile = tutorID => async dispatch => {
     }
     dispatch(emitSetErrorAction(message));
   }
+};
+
+export const emitRentTutor = name => {
+  return {
+    type: ActionTypes.RENT_TUTOR,
+    payload: null
+  };
+};
+
+export const RentTutor = state => async dispatch => {
+  const responseData = await UserHandler.RentTutor(state);
+  if (!isNull(responseData)) {
+    const { code, message } = responseData;
+    if (code === 1) {
+      dispatch(emitRemoveErrorAction());
+      return history.push('/');
+    }
+    dispatch(emitSetErrorAction(message));
+  }
+};
+
+export const emitCreateSocket = socket => {
+  return {
+    type: ActionTypes.CREATE_SOCKET,
+    payload: socket
+  };
+};
+
+export const CreateSocket = () => async dispatch => {
+  const socket = io('192.168.1.230:55210');
+  dispatch(emitCreateSocket(socket));
 };

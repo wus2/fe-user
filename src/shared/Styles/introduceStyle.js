@@ -1,4 +1,4 @@
-import { container, title } from '../material-kit-react';
+import { container, title, grayColor } from '../material-kit-react';
 
 import imagesStyle from './imagesStyles';
 
@@ -77,6 +77,44 @@ const profilePageStyle = {
     lineHeight: '1',
     margin: '2px 2px 2px 0',
     width: 'auto'
+  },
+  cardCategoryWhite: {
+    color: 'rgba(255,255,255,.62)',
+    margin: '0',
+    fontSize: '14px',
+    marginTop: '0',
+    marginBottom: '0'
+  },
+  cardTitleWhite: {
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none'
+  },
+  cardCategory: {
+    color: grayColor[0],
+    margin: '0',
+    fontSize: '14px',
+    marginTop: '20px',
+    paddingTop: '10px',
+    marginBottom: '10px'
+  },
+  cardTitle: {
+    color: grayColor[2],
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none',
+    '& small': {
+      color: grayColor[1],
+      fontWeight: '400',
+      lineHeight: '1'
+    }
   }
 };
 

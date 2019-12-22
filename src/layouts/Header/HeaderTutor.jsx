@@ -15,11 +15,10 @@ export default function HeaderTutor(props) {
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
   const { user } = userState;
-  const { ...rest } = props;
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <div onClick={() => history.push('/')}>
+        <div onClick={() => history.push('/tutee/contracthistory')}>
           <Button
             color="transparent"
             target="_blank"

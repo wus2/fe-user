@@ -23,7 +23,12 @@ export default function Temp(props) {
   const classes = useStyles();
 
   const userState = useSelector(state => state.userState);
-  const { isSignIn, name, avatar, role } = userState;
+  const { isSignIn, name, avatar, role, socket, username } = userState;
+
+  socket.emit('init', username);
+  socket.on('notification', data => {
+    console.log(data);
+  });
 
   const dataUser = [
     <div
@@ -65,7 +70,14 @@ export default function Temp(props) {
   ];
 
   return (
-    <List className={classes.list}>
+    <List
+      style={{
+        minWidth: '200px',
+        display: 'flex',
+        justifyContent: 'space-around'
+      }}
+      className={classes.list}
+    >
       {isSignIn ? (
         <>
           <ListItem className={classes.listItem}>
@@ -75,13 +87,19 @@ export default function Temp(props) {
               placement={window.innerWidth > 959 ? 'top' : 'left'}
               classes={{ tooltip: classes.tooltip }}
             >
-              <Button
-                color="transparent"
-                target="_blank"
-                className={classes.navLink}
-              >
-                <i className={`${classes.socialIcons} fas fa-comments`} />
-              </Button>
+              <CustomDropdown
+                left
+                caret={false}
+                hoverColor="black"
+                buttonText={
+                  <i className={`${classes.socialIcons} fas fa-comments`} />
+                }
+                buttonProps={{
+                  className: `${classes.navLink} ${classes.imageDropdownButton}`,
+                  color: 'transparent'
+                }}
+                dropdownList={[]}
+              />
             </Tooltip>
           </ListItem>
           <ListItem className={classes.listItem}>
@@ -91,15 +109,21 @@ export default function Temp(props) {
               placement={window.innerWidth > 959 ? 'top' : 'left'}
               classes={{ tooltip: classes.tooltip }}
             >
-              <Button
-                color="transparent"
-                target="_blank"
-                className={classes.navLink}
-              >
-                <i
-                  className={`${classes.socialIcons} fas fa-exclamation-circle`}
-                />
-              </Button>
+              <CustomDropdown
+                left
+                caret={false}
+                hoverColor="black"
+                buttonText={
+                  <i
+                    className={`${classes.socialIcons} fas fa-exclamation-circle`}
+                  />
+                }
+                buttonProps={{
+                  className: `${classes.navLink} ${classes.imageDropdownButton}`,
+                  color: 'transparent'
+                }}
+                dropdownList={[]}
+              />
             </Tooltip>
           </ListItem>
           <ListItem className={classes.listItem}>

@@ -33,7 +33,6 @@ export default function LoginPage(props) {
 
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { ...rest } = props;
 
   setTimeout(function() {
     setCardAnimation('');

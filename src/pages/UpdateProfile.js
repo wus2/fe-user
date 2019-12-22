@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from 'reduxs/reducers/User/action';
-import history from 'historyConfig';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -129,7 +128,6 @@ export default function UpdateProfile(props) {
   };
 
   const classes = useStyles();
-  const { ...rest } = props;
   return (
     <div>
       <div

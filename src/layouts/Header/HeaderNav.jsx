@@ -15,7 +15,7 @@ export default function HeaderNav(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
-  const { isSignIn, role, tutors, skills } = userState;
+  const { isSignIn, role, tutors, skills, socket } = userState;
 
   if (!skills) {
     dispatch(UserActions.GetSkills());
@@ -23,6 +23,10 @@ export default function HeaderNav(props) {
 
   if (!tutors) {
     dispatch(UserActions.GetListTutor(1));
+  }
+
+  if (!socket) {
+    dispatch(UserActions.CreateSocket());
   }
 
   if (!isSignIn && window.localStorage.getItem('token') !== null) {

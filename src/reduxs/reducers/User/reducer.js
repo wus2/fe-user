@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   skills: null,
   tutors: null,
   errors: null,
-  tutor: null
+  tutor: null,
+  socket: null
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -71,6 +72,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, errors: null };
     case ActionTypes.GET_TUTOR_PROFILE:
       return { ...state, tutor: action.payload };
+    case ActionTypes.RENT_TUTOR:
+      return { ...state };
+    case ActionTypes.CREATE_SOCKET:
+      return { ...state, socket: action.payload };
     default:
       return { ...state };
   }

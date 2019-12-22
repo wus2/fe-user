@@ -22,7 +22,7 @@ const componentsStyle = {
     margin: '10px 0 0'
   },
   main: {
-    background: '#FFFFFF',
+    background: '#f1f1f1',
     position: 'relative',
     zIndex: '3'
   },

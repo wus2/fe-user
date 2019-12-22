@@ -1,12 +1,10 @@
 import React from 'react';
 import * as UserActions from 'reduxs/reducers/User/action';
-import * as UserHandler from 'reduxs/handlers/UserHandler';
 import { useDispatch, useSelector } from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
-import moment from 'moment';
 // import Footer from 'components/Footer/Footer';
 import GridContainer from 'shared/Components/Grid/GridContainer';
 import GridItem from 'shared/Components/Grid/GridItem';
@@ -32,7 +30,6 @@ export default function UpdateIntroduce(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const { ...rest } = props;
 
   const handleSubmit = event => {
     event.preventDefault();
