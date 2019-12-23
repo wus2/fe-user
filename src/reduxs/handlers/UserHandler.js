@@ -65,3 +65,13 @@ export const RentTutor = async state => {
   const rs = await HttpClient.RentTutor(state);
   return rs;
 };
+
+export const GetListNoti = async offset => {
+  const rs = await HttpClient.GetListNoti(offset);
+  return rs;
+};
+
+export const GetListHisDeal = async offset => {
+  const rs = await HttpClient.GetListHisDeal(offset);
+  return rs;
+};

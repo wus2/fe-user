@@ -280,3 +280,37 @@ export const CreateSocket = () => async dispatch => {
   const socket = io('192.168.1.230:55210');
   dispatch(emitCreateSocket(socket));
 };
+
+export const emitGetListNoti = noti => {
+  return {
+    type: ActionTypes.GET_LIST_NOTI,
+    payload: noti
+  };
+};
+
+export const GetListNoti = offset => async dispatch => {
+  const responseData = await UserHandler.GetListNoti(offset);
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      dispatch(emitGetListNoti(data));
+    }
+  }
+};
+
+export const emitGetListHisDeal = noti => {
+  return {
+    type: ActionTypes.GET_LIST_NOTI,
+    payload: noti
+  };
+};
+
+export const GetListHisDeal = offset => async dispatch => {
+  const responseData = await UserHandler.GetListHisDeal(offset);
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      dispatch(emitGetListNoti(data));
+    }
+  }
+};

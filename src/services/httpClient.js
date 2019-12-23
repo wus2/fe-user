@@ -249,3 +249,32 @@ export const RentTutor = async state => {
   }
   return null;
 };
+
+export const GetListNoti = async offset => {
+  const token = window.localStorage.getItem('token');
+  try {
+    const response = await instance.get(`noti/list/page/${offset}/limit/12`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetListHisDeal = async offset => {
+  const token = window.localStorage.getItem('token');
+  try {
+    const response = await instance.get(
+      `/tutee/contracthistory/page/${offset}/limit/12`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};

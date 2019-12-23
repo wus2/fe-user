@@ -67,7 +67,7 @@ export default function Introduce(props) {
                         <b>
                           <h4>{tutor.degree}</h4>
                         </b>
-                        <Star star={tutor.rate} />
+                        <Star star={tutor.num_rate} />
                       </div>
                       <Divider className={classes.divider} />
                       <div>

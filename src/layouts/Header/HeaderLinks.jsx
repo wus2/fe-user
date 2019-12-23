@@ -15,6 +15,7 @@ import Button from 'shared/Components/Button';
 import CustomInput from 'shared/Components/CustomInput';
 import styles from 'shared/Styles/headerLinksStyle';
 import image from 'shared/Img/logo192.png';
+import { Grid, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(styles);
 
@@ -23,7 +24,15 @@ export default function Temp(props) {
   const classes = useStyles();
 
   const userState = useSelector(state => state.userState);
-  const { isSignIn, name, avatar, role, socket, username } = userState;
+  const {
+    isSignIn,
+    name,
+    avatar,
+    role,
+    socket,
+    username,
+    notification
+  } = userState;
 
   socket.emit('init', username);
   socket.on('notification', data => {
@@ -122,7 +131,30 @@ export default function Temp(props) {
                   className: `${classes.navLink} ${classes.imageDropdownButton}`,
                   color: 'transparent'
                 }}
-                dropdownList={[]}
+                dropdownList={[
+                  <div>
+                    <Grid container>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <p>Da co mot thong bao</p>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <p>{Date()}</p>
+                        <Divider className={classes.divider} />
+                      </Grid>
+                    </Grid>
+                  </div>,
+                  <div>
+                    <Grid container>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <p>Da co mot thong bao</p>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <p>{Date()}</p>
+                        <Divider className={classes.divider} />
+                      </Grid>
+                    </Grid>
+                  </div>
+                ]}
               />
             </Tooltip>
           </ListItem>

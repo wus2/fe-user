@@ -117,7 +117,7 @@ export default function Home(props) {
                           <div>
                             <b>{data.price_per_hour} VNĐ/H</b>
                           </div>
-                          <Star star={data.rate} />
+                          <Star star={data.num_rate} />
                           <Button
                             size="sm"
                             color="primary"

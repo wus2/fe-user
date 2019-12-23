@@ -13,7 +13,9 @@ const INITIAL_STATE = {
   tutors: null,
   errors: null,
   tutor: null,
-  socket: null
+  socket: null,
+  notification: null,
+  historyDeal: null
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -76,6 +78,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state };
     case ActionTypes.CREATE_SOCKET:
       return { ...state, socket: action.payload };
+    case ActionTypes.GET_LIST_NOTI:
+      return { ...state, notification: action.payload };
+    case ActionTypes.GET_LIST_HIS:
+      return { ...state, historyDeal: action.payload };
     default:
       return { ...state };
   }
