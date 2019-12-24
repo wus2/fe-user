@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as UserActions from 'reduxs/reducers/User/action';
 import List from '@material-ui/core/List';
 import history from 'historyConfig';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,12 +16,32 @@ const useStyles = makeStyles(styles);
 export default function HeaderStudent(props) {
   const classes = useStyles();
   const userState = useSelector(state => state.userState);
+  const dispatch = useDispatch();
+
+  const [filter, setFilter] = React.useState({
+    district: null,
+    minPrice: null,
+    maxPrice: null,
+    skill: null
+  });
 
   const dataDistricts = [];
   const dataSkills = [];
   district.map(item => {
     return dataDistricts.push(
-      <div onClick={() => history.push('/')} className={classes.dropdownLink}>
+      <div
+        onClick={() => {
+          setFilter({
+            district: item,
+            minPrice: null,
+            maxPrice: null,
+            skill: null
+          });
+          dispatch(UserActions.FilterTutor(1, filter));
+          history.push(`/filter/${item}`);
+        }}
+        className={classes.dropdownLink}
+      >
         <div>{item}</div>
       </div>
     );
@@ -28,7 +49,19 @@ export default function HeaderStudent(props) {
   if (userState.skills) {
     userState.skills.map(item => {
       return dataSkills.push(
-        <div onClick={() => history.push('/')} className={classes.dropdownLink}>
+        <div
+          onClick={() => {
+            setFilter({
+              district: null,
+              minPrice: null,
+              maxPrice: null,
+              skill: item
+            });
+            dispatch(UserActions.FilterTutor(1, filter));
+            history.push(`/filter/${item}`);
+          }}
+          className={classes.dropdownLink}
+        >
           <div>{item}</div>
         </div>
       );
@@ -74,28 +107,64 @@ export default function HeaderStudent(props) {
           buttonIcon={EmojiTransportationIcon}
           dropdownList={[
             <div
-              onClick={() => history.push('/')}
+              onClick={() => {
+                setFilter({
+                  district: null,
+                  minPrice: 50000,
+                  maxPrice: null,
+                  skill: null
+                });
+                dispatch(UserActions.FilterTutor(1, filter));
+                history.push(`/filter/50000`);
+              }}
               className={classes.dropdownLink}
             >
-              <div>Dưới 100.000</div>
+              <div>Dưới 50.000</div>
             </div>,
             <div
-              onClick={() => history.push('/')}
+              onClick={() => {
+                setFilter({
+                  district: null,
+                  minPrice: 50000,
+                  maxPrice: 100000,
+                  skill: null
+                });
+                dispatch(UserActions.FilterTutor(1, filter));
+                history.push(`/filter/50000-100000`);
+              }}
+              className={classes.dropdownLink}
+            >
+              <div>50.000 - 100.000</div>
+            </div>,
+            <div
+              onClick={() => {
+                setFilter({
+                  district: null,
+                  minPrice: 100000,
+                  maxPrice: 150000,
+                  skill: null
+                });
+                dispatch(UserActions.FilterTutor(1, filter));
+                history.push(`/filter/100000-150000`);
+              }}
               className={classes.dropdownLink}
             >
               <div>100.000 - 150.000</div>
             </div>,
             <div
-              onClick={() => history.push('/')}
+              onClick={() => {
+                setFilter({
+                  district: null,
+                  minPrice: null,
+                  maxPrice: 150000,
+                  skill: null
+                });
+                dispatch(UserActions.FilterTutor(1, filter));
+                history.push(`/filter/150000`);
+              }}
               className={classes.dropdownLink}
             >
-              <div>150.000 - 200.000</div>
-            </div>,
-            <div
-              onClick={() => history.push('/')}
-              className={classes.dropdownLink}
-            >
-              <div>Trên 200.000</div>
+              <div>Trên 150.000</div>
             </div>
           ]}
         />
@@ -114,7 +183,12 @@ export default function HeaderStudent(props) {
         </div>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <div onClick={() => history.push('/tutee/contracthistory')}>
+        <div
+          onClick={() => {
+            dispatch(UserActions.GetListHisDeal(1));
+            history.push('/tutee/contracthistory');
+          }}
+        >
           <Button
             color="transparent"
             target="_blank"

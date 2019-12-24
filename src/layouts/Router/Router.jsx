@@ -10,6 +10,8 @@ import UpdateAvatar from 'pages/UpdateAvatar';
 import UpdateSkills from 'pages/UpdateSkills';
 import UpdatePassword from 'pages/UpdatePassword';
 import UpdateIntroduce from 'pages/UpdateIntroduce';
+import HistoryHome from 'pages/HistoryHome';
+
 import Introduce from 'pages/Introduce';
 
 import store from 'store';
@@ -33,6 +35,12 @@ class Routers extends React.PureComponent {
             exact
             path="/tutor/updateintroduce"
             component={UpdateIntroduce}
+          />
+          <Route exact path="/tutee/contracthistory" component={HistoryHome} />
+          <Route
+            exact
+            path="/tutee/contracthistory/page/:page"
+            component={HistoryHome}
           />
         </Switch>
       </Router>

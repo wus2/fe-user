@@ -75,3 +75,13 @@ export const GetListHisDeal = async offset => {
   const rs = await HttpClient.GetListHisDeal(offset);
   return rs;
 };
+
+export const GetDetailDeal = async contractID => {
+  const rs = await HttpClient.GetDetailDeal(contractID);
+  return rs;
+};
+
+export const FilterTutor = async (offset, state) => {
+  const rs = await HttpClient.FilterTutor(offset, state);
+  return rs;
+};

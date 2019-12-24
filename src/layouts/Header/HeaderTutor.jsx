@@ -18,7 +18,12 @@ export default function HeaderTutor(props) {
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <div onClick={() => history.push('/tutee/contracthistory')}>
+        <div
+          onClick={() => {
+            dispatch(UserActions.GetListHisDeal(1));
+            history.push('/tutee/contracthistory');
+          }}
+        >
           <Button
             color="transparent"
             target="_blank"

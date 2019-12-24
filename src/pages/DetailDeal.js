@@ -36,7 +36,7 @@ export default function Introduce(props) {
   const { ...rest } = props;
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
-  const { tutor, role, isSignIn } = userState;
+  const { detailDeal, role, isSignIn } = userState;
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
@@ -67,8 +67,8 @@ export default function Introduce(props) {
                   <div>
                     <img
                       src={
-                        tutor.avatar
-                          ? `https://wusbeuser.herokuapp.com${tutor.avatar}`
+                        detailDeal.avatar
+                          ? `https://wusbeuser.herokuapp.com${detailDeal.avatar}`
                           : image
                       }
                       alt="..."
@@ -78,13 +78,13 @@ export default function Introduce(props) {
                   {role === 2 ? (
                     <div>
                       <b>
-                        <h4>{tutor.degree}</h4>
+                        <h4>{detailDeal.degree}</h4>
                       </b>
                       <b>
                         {' '}
-                        <h4>Giá tiền(VNĐ/giờ): {tutor.price}</h4>
+                        <h4>Giá tiền(VNĐ/giờ): {detailDeal.price}</h4>
                       </b>
-                      <Star star={tutor.rate} />
+                      <Star star={detailDeal.rate} />
                     </div>
                   ) : (
                     ''
@@ -97,38 +97,38 @@ export default function Introduce(props) {
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Họ tên:</b> {tutor.name}
+                      <b>Họ tên:</b> {detailDeal.name}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Địa chỉ:</b> {tutor.address}, {tutor.district}, TP. Hồ
-                      Chí Minh
+                      <b>Địa chỉ:</b> {detailDeal.address},{' '}
+                      {detailDeal.district}, TP. Hồ Chí Minh
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Email:</b> {tutor.email}
+                      <b>Email:</b> {detailDeal.email}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Liên hệ:</b> {tutor.phone}
+                      <b>Liên hệ:</b> {detailDeal.phone}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Giới thiệu:</b> {tutor.intro_desc}
+                      <b>Giới thiệu:</b> {detailDeal.intro_desc}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Giờ học:</b> {tutor.price}
+                      <b>Giờ học:</b> {detailDeal.price}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Ngày tạo:</b> {tutor.price}
+                      <b>Ngày tạo:</b> {detailDeal.price}
                     </p>
                   </div>
                   {role === 2 ? (
@@ -139,8 +139,8 @@ export default function Introduce(props) {
                           component="nav"
                           aria-label="secondary mailbox folder"
                         >
-                          {tutor.skill_tags
-                            ? tutor.skill_tags.map(item => {
+                          {detailDeal.skill_tags
+                            ? detailDeal.skill_tags.map(item => {
                                 return (
                                   <ListItem className={classes.skilltags}>
                                     {item}
@@ -205,10 +205,10 @@ export default function Introduce(props) {
                       </DialogContent>
                       <DialogActions>
                         <Button onClick={handleClose} color="primary">
-                          Disagree
+                          Close
                         </Button>
                         <Button onClick={handleClose} color="primary" autoFocus>
-                          Agree
+                          Evaluate
                         </Button>
                       </DialogActions>
                     </Dialog>

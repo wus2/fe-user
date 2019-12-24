@@ -89,7 +89,7 @@ export default function HistoryHome(props) {
                             color="primary"
                             className={classes.profile}
                             onClick={() => {
-                              dispatch(UserActions.GetTutorProfile(data.id));
+                              dispatch(UserActions.GetDetailDeal(data.id));
                             }}
                           >
                             Detail
@@ -107,7 +107,7 @@ export default function HistoryHome(props) {
                     onClick: () => {
                       if (page === 1) return;
                       page -= 1;
-                      dispatch(UserActions.GetListTutor(page));
+                      dispatch(UserActions.GetListHisDeal(page));
                       history.push(`/page/${page}`);
                     }
                   },
@@ -116,7 +116,7 @@ export default function HistoryHome(props) {
                     onClick: () => {
                       if (historyDeal.length === 0) return;
                       page += 1;
-                      dispatch(UserActions.GetListTutor(page));
+                      dispatch(UserActions.GetListHisDeal(page));
                       history.push(`/page/${page}`);
                     }
                   }

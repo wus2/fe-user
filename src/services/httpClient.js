@@ -278,3 +278,30 @@ export const GetListHisDeal = async offset => {
   }
   return null;
 };
+
+export const GetDetailDeal = async contractID => {
+  const token = window.localStorage.getItem('token');
+  try {
+    const response = await instance.get(`/tutee/evaluaterate/${contractID}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const FilterTutor = async (offset, state) => {
+  const { district, minPrice, maxPrice, skill } = state;
+  try {
+    const response = await instance.get(
+      `/tutor/filtertutor/page/${offset}/limit/12`,
+      { district, minPrice, maxPrice, skill }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};

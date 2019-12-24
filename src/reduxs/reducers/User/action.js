@@ -314,3 +314,30 @@ export const GetListHisDeal = offset => async dispatch => {
     }
   }
 };
+
+export const emitGetDetailDeal = detail => {
+  return {
+    type: ActionTypes.GET_DETAIL_DEAL,
+    payload: detail
+  };
+};
+
+export const GetDetailDeal = contractID => async dispatch => {
+  const responseData = await UserHandler.GetDetailDeal(contractID);
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      dispatch(emitGetDetailDeal(data));
+    }
+  }
+};
+
+export const FilterTutor = (offset, state) => async dispatch => {
+  const responseData = await UserHandler.FilterTutor(offset, state);
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      dispatch(emitGetListTutor(data));
+    }
+  }
+};
