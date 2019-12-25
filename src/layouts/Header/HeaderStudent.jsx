@@ -144,18 +144,6 @@ export default function HeaderStudent(props) {
         />
       </ListItem>
 
-      <ListItem className={classes.listItem}>
-        <div onClick={() => history.push('/')}>
-          <Button
-            color="transparent"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={`${classes.socialIcons} fas fa-star`} />
-            Top Gia Sư
-          </Button>
-        </div>
-      </ListItem>
       {userState.isSignIn ? (
         <ListItem className={classes.listItem}>
           <div

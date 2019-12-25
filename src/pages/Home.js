@@ -28,8 +28,7 @@ export default function Home(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
-  const { tutors } = userState;
-
+  const { tutors, topTutor } = userState;
   return (
     <div>
       <Parallax image={require('shared/Img/bg.jpg')}>
@@ -50,8 +49,8 @@ export default function Home(props) {
           </Grid>
         </div>
       </Parallax>
-      {tutors ? (
-        <div className={classNames(classes.main, classes.mainRaised)}>
+      <div className={classNames(classes.main, classes.mainRaised)}>
+        {tutors ? (
           <div className={classes.section}>
             <Grid container justify="center">
               <Grid item xs={12} sm={12} md={8}>
@@ -65,7 +64,11 @@ export default function Home(props) {
                   return (
                     <Grid item xs={12} sm={12} md={3}>
                       <Card
-                        style={{ minHeight: '300px', display: 'grid' }}
+                        style={{
+                          minHeight: '300px',
+                          display: 'grid',
+                          marginTop: '20px'
+                        }}
                         className={classes.card}
                       >
                         <CardHeader
@@ -74,7 +77,7 @@ export default function Home(props) {
                               aria-label="recipe"
                               src={
                                 data.avatar
-                                  ? `https://wusbeuser.herokuapp.com${data.avatar}`
+                                  ? `https://wusbeuser.herokuapp.com/${data.avatar}`
                                   : image
                               }
                               className={classes.bigAvatar}
@@ -119,12 +122,15 @@ export default function Home(props) {
                           <div>
                             <b>{data.price_per_hour} VNĐ/H</b>
                           </div>
-                          <Star star={data.num_stars / data.num_rate} />
+                          <Star
+                            star={Math.ceil(data.num_stars / data.num_rate)}
+                          />
                           <Button
                             size="sm"
                             color="primary"
                             className={classes.profile}
                             onClick={() => {
+                              dispatch(UserActions.GetComment(data.id));
                               dispatch(UserActions.GetTutorProfile(data.id));
                             }}
                           >
@@ -161,10 +167,110 @@ export default function Home(props) {
               />
             </div>
           </div>
-        </div>
-      ) : (
-        <div />
-      )}
+        ) : (
+          ''
+        )}
+
+        <Divider />
+
+        {topTutor ? (
+          <div className={classes.section}>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} md={8}>
+                <h2 className={classes.topic}>Top Gia Sư</h2>
+              </Grid>
+              <Divider className={classes.divider} />
+            </Grid>
+            <div>
+              <Grid container style={{ margin: '0px 10px' }}>
+                {topTutor.map(data => {
+                  return (
+                    <Grid item xs={12} sm={12} md={3}>
+                      <Card
+                        style={{
+                          minHeight: '300px',
+                          display: 'grid',
+                          marginTop: '20px'
+                        }}
+                        className={classes.card}
+                      >
+                        <CardHeader
+                          avatar={
+                            <Avatar
+                              aria-label="recipe"
+                              src={
+                                data.avatar
+                                  ? `https://wusbeuser.herokuapp.com/${data.avatar}`
+                                  : image
+                              }
+                              className={classes.bigAvatar}
+                            >
+                              Avatar
+                            </Avatar>
+                          }
+                          title={data.name}
+                          subheader={data.degree}
+                        />
+
+                        <CardContent>
+                          <List
+                            className={classes.flex}
+                            component="nav"
+                            aria-label="secondary mailbox folder"
+                          >
+                            {data.skill_tags
+                              ? data.skill_tags.map(item => {
+                                  return (
+                                    <ListItem className={classes.skilltags}>
+                                      {item}
+                                    </ListItem>
+                                  );
+                                })
+                              : ''}
+                          </List>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                          >
+                            {data.intro_desc}
+                          </Typography>
+                        </CardContent>
+                        <Divider className={classes.divider} />
+                        <CardActions
+                          style={{
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <div>
+                            <b>{data.price_per_hour} VNĐ/H</b>
+                          </div>
+                          <Star
+                            star={Math.ceil(data.num_stars / data.num_rate)}
+                          />
+                          <Button
+                            size="sm"
+                            color="primary"
+                            className={classes.profile}
+                            onClick={() => {
+                              dispatch(UserActions.GetComment(data.id));
+                              dispatch(UserActions.GetTutorProfile(data.id));
+                            }}
+                          >
+                            Profile
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   );
 }

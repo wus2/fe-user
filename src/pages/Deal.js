@@ -49,7 +49,7 @@ export default function UserProfile() {
   };
 
   const handleDateChange = date => {
-    date = moment(date).format('YYYY-MM-DD');
+    date = moment(date*1000).format('YYYY-MM-DD');
     setState({ ...state, startTime: date });
   };
   return (
@@ -58,22 +58,22 @@ export default function UserProfile() {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
+            {errors ? (
+              <SnackbarContent
+                message={
+                  <span>
+                    <b>{errors}</b>
+                  </span>
+                }
+                close
+                color="danger"
+                icon="info_outline"
+              />
+            ) : (
+              ''
+            )}
             <GridContainer justify="center">
               <GridContainer style={{ marginTop: '30px' }} spacing={4}>
-                {errors ? (
-                  <SnackbarContent
-                    message={
-                      <span>
-                        <b>{errors}</b>
-                      </span>
-                    }
-                    close
-                    color="danger"
-                    icon="info_outline"
-                  />
-                ) : (
-                  ''
-                )}
                 <GridItem xs={12} sm={12} md={8}>
                   <Card>
                     <CardHeader color="primary">
@@ -234,15 +234,15 @@ export default function UserProfile() {
                           </InputLabel>
                           <CustomInput
                             labelText="Bình luận"
-                            id="comment"
+                            id="description"
                             formControlProps={{
                               fullWidth: true
                             }}
-                            handleChange={handleChange('comment')}
+                            handleChange={handleChange('description')}
                             inputProps={{
                               multiline: true,
                               required: true,
-                              name: 'comment',
+                              name: 'description',
                               rows: 3
                             }}
                           />
@@ -266,7 +266,7 @@ export default function UserProfile() {
                         <img
                           src={
                             tutor.avatar
-                              ? `https://wusbeuser.herokuapp.com${tutor.avatar}`
+                              ? `https://wusbeuser.herokuapp.com/${tutor.avatar}`
                               : image
                           }
                           alt="..."

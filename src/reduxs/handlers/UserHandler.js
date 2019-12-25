@@ -106,3 +106,23 @@ export const Evaluate = async (contractID, state) => {
   const rs = await HttpClient.Evaluate(contractID, state);
   return rs;
 };
+
+export const GetTopTutor = async () => {
+  const rs = await HttpClient.GetTopTutor();
+  return rs;
+};
+
+export const GetComment = async tutorID => {
+  const rs = await HttpClient.GetComment(tutorID);
+  return rs;
+};
+
+export const ForgotPassword = async email => {
+  const rs = await HttpClient.ForgotPassword(email);
+  return rs;
+};
+
+export const PostStatusContract = async (contractID, status) => {
+  const rs = await HttpClient.PostStatusContract(contractID, status);
+  return rs;
+};

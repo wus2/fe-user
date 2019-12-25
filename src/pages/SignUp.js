@@ -82,7 +82,7 @@ export default function RegisterPage(props) {
   };
 
   const handleDateChange = date => {
-    date = moment(date).format('YYYY-MM-DD');
+    date = moment(date * 1000).format('YYYY-MM-DD');
     setState({ ...state, dob: date });
   };
 

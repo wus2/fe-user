@@ -16,7 +16,9 @@ const INITIAL_STATE = {
   socket: null,
   notification: null,
   historyDeal: null,
-  detailDeal: null
+  detailDeal: null,
+  topTutor: null,
+  comments: null
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -89,6 +91,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state };
     case ActionTypes.EVALUATE:
       return { ...state };
+    case ActionTypes.GET_TOP_TUTOR:
+      return { ...state, topTutor: action.payload };
+    case ActionTypes.GET_COMMENT:
+      return { ...state, comments: action.payload };
     default:
       return { ...state };
   }

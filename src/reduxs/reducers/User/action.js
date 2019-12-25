@@ -245,13 +245,31 @@ export const GetTutorProfile = tutorID => async dispatch => {
     if (code === 1) {
       dispatch(emitGetTutorProfile(data));
       dispatch(emitRemoveErrorAction());
-      return history.push(`tutor/introduce/${tutorID}`);
+      return history.push(`/tutor/introduce/${tutorID}`);
     }
     dispatch(emitSetErrorAction(message));
   }
 };
 
-export const emitRentTutor = name => {
+export const emitGetComment = data => {
+  return {
+    type: ActionTypes.GET_COMMENT,
+    payload: data
+  };
+};
+
+export const GetComment = tutorID => async dispatch => {
+  const responseData = await UserHandler.GetComment(tutorID);
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      return dispatch(emitGetComment(data));
+    }
+    dispatch(emitGetComment(null));
+  }
+};
+
+export const emitRentTutor = () => {
   return {
     type: ActionTypes.RENT_TUTOR,
     payload: null
@@ -259,7 +277,7 @@ export const emitRentTutor = name => {
 };
 
 export const RentTutor = state => async dispatch => {
-  const responseData = UserHandler.RentTutor(state);
+  const responseData = await UserHandler.RentTutor(state);
   if (!isNull(responseData)) {
     const { code, message } = responseData;
     if (code === 1) {
@@ -278,7 +296,7 @@ export const emitCreateSocket = socket => {
 };
 
 export const CreateSocket = () => async dispatch => {
-  const socket = io('192.168.1.230:55210');
+  const socket = io('192.168.0.145:55210');
   dispatch(emitCreateSocket(socket));
 };
 
@@ -368,11 +386,51 @@ export const emitEvaluate = () => {
 
 export const Evaluate = (contractID, state) => async dispatch => {
   const responseData = await UserHandler.Evaluate(contractID, state);
-  console.log(responseData);
   if (!isNull(responseData)) {
     const { code } = responseData;
     if (code === 1) {
       dispatch(emitEvaluate());
+    }
+  }
+};
+
+export const emitGetTopTutor = tutors => {
+  return {
+    type: ActionTypes.GET_TOP_TUTOR,
+    payload: tutors
+  };
+};
+
+export const GetTopTutor = () => async dispatch => {
+  const responseData = await UserHandler.GetTopTutor();
+
+  if (!isNull(responseData)) {
+    const { code, data } = responseData;
+    if (code === 1) {
+      dispatch(emitGetTopTutor(data));
+    }
+  }
+};
+
+export const ForgotPassword = email => async dispatch => {
+  const responseData = await UserHandler.ForgotPassword(email);
+  if (!isNull(responseData)) {
+    const { code, message } = responseData;
+    if (code === 1) {
+      window.localStorage.removeItem('token');
+      dispatch(emitRemoveErrorAction());
+      return history.push('/');
+    }
+    dispatch(emitSetErrorAction(message));
+  }
+};
+
+export const PostStatusContract = (contractID, status) => async dispatch => {
+  const responseData = await UserHandler.PostStatusContract(contractID, status);
+  if (!isNull(responseData)) {
+    const { code } = responseData;
+    if (code === 1) {
+      return history.push(`/`);
     }
   }
 };

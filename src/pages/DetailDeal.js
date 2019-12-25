@@ -69,7 +69,7 @@ export default function Introduce(props) {
                     <img
                       src={
                         detailDeal.avatar
-                          ? `https://wusbeuser.herokuapp.com${detailDeal.avatar}`
+                          ? `https://wusbeuser.herokuapp.com/${detailDeal.avatar}`
                           : image
                       }
                       alt="..."
@@ -85,7 +85,11 @@ export default function Introduce(props) {
                         {' '}
                         <h4>Giá tiền(VNĐ/giờ): {detailDeal.price_per_hour}</h4>
                       </b>
-                      <Star star={detailDeal.num_stars / detailDeal.num_rate} />
+                      <Star
+                        star={Math.ceil(
+                          detailDeal.num_stars / detailDeal.num_rate
+                        )}
+                      />
                     </div>
                   ) : (
                     ''
@@ -131,7 +135,7 @@ export default function Introduce(props) {
                   <div className={classes.description}>
                     <p>
                       <b>Ngày tạo:</b>{' '}
-                      {moment(detailDeal.order_create_date).format(
+                      {moment(detailDeal.order_create_date*1000).format(
                         'DD-MM-YYYY'
                       )}
                     </p>
@@ -176,7 +180,7 @@ export default function Introduce(props) {
                 </div>
               </Grid>
               {role === 2 ? (
-                detailDeal.status === 8 &&
+                detailDeal.status === 4 &&
                 !detailDeal.stars &&
                 !detailDeal.comment ? (
                   <>
@@ -251,6 +255,50 @@ export default function Introduce(props) {
                 ) : (
                   ''
                 )
+              ) : detailDeal.status === 1 ? (
+                <>
+                  <Divider className={classes.divider} />
+                  <Grid container justify="center">
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Button
+                        onClick={() =>
+                          dispatch(
+                            UserActions.PostStatusContract(detailDeal.cid, 2)
+                          )
+                        }
+                        size="sm"
+                        color="primary"
+                      >
+                        Chấp nhận
+                      </Button>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Button
+                        onClick={() =>
+                          dispatch(
+                            UserActions.PostStatusContract(detailDeal.cid, 6)
+                          )
+                        }
+                        size="sm"
+                        color="primary"
+                      >
+                        Từ chối
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </>
               ) : (
                 ''
               )}

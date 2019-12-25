@@ -45,14 +45,21 @@ export default function HistoryHome(props) {
                 {historyDeal.map(data => {
                   return (
                     <Grid item xs={12} sm={12} md={4}>
-                      <Card className={classes.card}>
+                      <Card
+                        style={{
+                          minHeight: '200px',
+                          display: 'grid',
+                          marginTop: '20px'
+                        }}
+                        className={classes.card}
+                      >
                         <CardHeader
                           avatar={
                             <Avatar
                               aria-label="recipe"
                               src={
                                 data.avatar
-                                  ? `https://wusbeuser.herokuapp.com${data.avatar}`
+                                  ? `https://wusbeuser.herokuapp.com/${data.avatar}`
                                   : image
                               }
                               className={classes.bigAvatar}

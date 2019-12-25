@@ -5,20 +5,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Search from '@material-ui/icons/Search';
+import Chat from 'shared/Components/Chat/Chat';
 import Tooltip from '@material-ui/core/Tooltip';
+import moment from 'moment';
 // @material-ui/icons
 // core components
 import history from 'historyConfig';
 import CustomDropdown from 'shared/Components/CustomDropdown';
 import Button from 'shared/Components/Button';
-import CustomInput from 'shared/Components/CustomInput';
 import styles from 'shared/Styles/headerLinksStyle';
 import image from 'shared/Img/logo192.png';
-import { Grid, Divider } from '@material-ui/core';
+import { Grid, Divider, Dialog, DialogContent } from '@material-ui/core';
 
 const useStyles = makeStyles(styles);
 
+let sv = null;
 export default function Temp(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -34,10 +35,67 @@ export default function Temp(props) {
     notification
   } = userState;
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const dataMess = [];
+  let talk = null;
+
   socket.emit('init', username);
-  socket.on('notification', data => {
-    console.log(data);
-  });
+  if (role === 1) {
+    socket.on('chat', response => {
+      const { id, sender } = response;
+      if (talk !== id) {
+        talk = id;
+        sv = sender;
+        dataMess.push(
+          <div onClick={handleClickOpen}>
+            <Grid container>
+              <Grid item xs={12} sm={12} md={12}>
+                <p>{sender} đã gửi bạn một tin nhắn</p>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12}>
+                <Divider className={classes.divider} />
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }
+    });
+  }
+
+  const dataNoti = [];
+  if (notification) {
+    notification.map(item => {
+      if (item.status === 1) {
+        return dataNoti.push(
+          <div
+            onClick={() => {
+              dispatch(UserActions.GetDetailDeal(item.contract_id));
+            }}
+          >
+            <Grid container>
+              <Grid item xs={12} sm={12} md={12}>
+                <p>{item.description}</p>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12}>
+                <p>{moment(item.create_time * 1000).format('DD/MM/YYYY')}</p>
+                <Divider className={classes.divider} />
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }
+      return null;
+    });
+  }
 
   const dataUser = [
     <div
@@ -79,255 +137,239 @@ export default function Temp(props) {
   ];
 
   return (
-    <List
-      style={{
-        minWidth: '200px',
-        display: 'flex',
-        justifyContent: 'space-around'
-      }}
-      className={classes.list}
-    >
-      {isSignIn ? (
-        <>
-          <ListItem className={classes.listItem}>
-            <Tooltip
-              id="messages"
-              title="messages"
-              placement={window.innerWidth > 959 ? 'top' : 'left'}
-              classes={{ tooltip: classes.tooltip }}
+    <>
+      <List
+        style={{
+          minWidth: '200px',
+          display: 'flex',
+          justifyContent: 'space-around'
+        }}
+        className={classes.list}
+      >
+        {isSignIn ? (
+          <>
+            <ListItem
+              className={classes.listItem}
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
             >
+              <Tooltip
+                id="messages"
+                title="messages"
+                placement={window.innerWidth > 959 ? 'top' : 'left'}
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <CustomDropdown
+                  left
+                  caret={false}
+                  hoverColor="black"
+                  buttonText={
+                    <i className={`${classes.socialIcons} fas fa-comments`} />
+                  }
+                  buttonProps={{
+                    className: `${classes.navLink} ${classes.imageDropdownButton}`,
+                    color: 'transparent'
+                  }}
+                  dropdownList={dataMess}
+                />
+              </Tooltip>
+            </ListItem>
+            <ListItem
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
+              className={classes.listItem}
+            >
+              <Tooltip
+                id="notices"
+                title="notices"
+                placement={window.innerWidth > 959 ? 'top' : 'left'}
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <CustomDropdown
+                  left
+                  caret={false}
+                  hoverColor="black"
+                  buttonText={
+                    <i
+                      className={`${classes.socialIcons} fas fa-exclamation-circle`}
+                    />
+                  }
+                  buttonProps={{
+                    className: `${classes.navLink} ${classes.imageDropdownButton}`,
+                    color: 'transparent'
+                  }}
+                  dropdownList={dataNoti}
+                />
+              </Tooltip>
+            </ListItem>
+            <ListItem className={classes.listItem}>
               <CustomDropdown
                 left
                 caret={false}
                 hoverColor="black"
+                dropdownHeader={`Hi, ${name}`}
                 buttonText={
-                  <i className={`${classes.socialIcons} fas fa-comments`} />
-                }
-                buttonProps={{
-                  className: `${classes.navLink} ${classes.imageDropdownButton}`,
-                  color: 'transparent'
-                }}
-                dropdownList={[]}
-              />
-            </Tooltip>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <Tooltip
-              id="notices"
-              title="notices"
-              placement={window.innerWidth > 959 ? 'top' : 'left'}
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <CustomDropdown
-                left
-                caret={false}
-                hoverColor="black"
-                buttonText={
-                  <i
-                    className={`${classes.socialIcons} fas fa-exclamation-circle`}
+                  <img
+                    src={
+                      avatar
+                        ? `https://wusbeuser.herokuapp.com/${avatar}`
+                        : image
+                    }
+                    className={classes.img}
+                    alt="profile"
                   />
                 }
                 buttonProps={{
                   className: `${classes.navLink} ${classes.imageDropdownButton}`,
                   color: 'transparent'
                 }}
-                dropdownList={[
-                  <div>
-                    <Grid container>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <p>Da co mot thong bao</p>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <p>{Date()}</p>
-                        <Divider className={classes.divider} />
-                      </Grid>
-                    </Grid>
-                  </div>,
-                  <div>
-                    <Grid container>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <p>Da co mot thong bao</p>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <p>{Date()}</p>
-                        <Divider className={classes.divider} />
-                      </Grid>
-                    </Grid>
-                  </div>
-                ]}
+                dropdownList={
+                  role === 1
+                    ? dataUser.concat([
+                        <div
+                          onClick={() => {
+                            dispatch(UserActions.emitRemoveErrorAction());
+                            history.push('/tutor/skills');
+                          }}
+                          className={classes.dropdownLink}
+                        >
+                          <div>
+                            <i
+                              className={`${classes.socialIcons} fas fa-cogs`}
+                            />
+                            Update Skills
+                          </div>
+                        </div>,
+                        <div
+                          onClick={() => {
+                            dispatch(UserActions.emitRemoveErrorAction());
+                            history.push('/tutor/updateintroduce');
+                          }}
+                          className={classes.dropdownLink}
+                        >
+                          <div>
+                            <i
+                              className={`${classes.socialIcons} fas fa-info-circle`}
+                            />
+                            Update Introduce
+                          </div>
+                        </div>,
+                        <div
+                          className={classes.dropdownLink}
+                          onClick={() => dispatch(UserActions.SignOut())}
+                        >
+                          <div>
+                            <i
+                              className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                            />
+                            Sign Out
+                          </div>
+                        </div>
+                      ])
+                    : dataUser.concat([
+                        <div
+                          className={classes.dropdownLink}
+                          onClick={() => dispatch(UserActions.SignOut())}
+                        >
+                          <div>
+                            <i
+                              className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                            />
+                            Sign Out
+                          </div>
+                        </div>
+                      ])
+                }
               />
-            </Tooltip>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <CustomDropdown
-              left
-              caret={false}
-              hoverColor="black"
-              dropdownHeader={`Hi, ${name}`}
-              buttonText={
-                <img
-                  src={
-                    avatar ? `https://wusbeuser.herokuapp.com${avatar}` : image
-                  }
-                  className={classes.img}
-                  alt="profile"
-                />
-              }
-              buttonProps={{
-                className: `${classes.navLink} ${classes.imageDropdownButton}`,
-                color: 'transparent'
-              }}
-              dropdownList={
-                role === 1
-                  ? dataUser.concat([
-                      <div
-                        onClick={() => {
-                          dispatch(UserActions.emitRemoveErrorAction());
-                          history.push('/tutor/skills');
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i className={`${classes.socialIcons} fas fa-cogs`} />
-                          Update Skills
-                        </div>
-                      </div>,
-                      <div
-                        onClick={() => {
-                          dispatch(UserActions.emitRemoveErrorAction());
-                          history.push('/tutor/updateintroduce');
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} fas fa-info-circle`}
-                          />
-                          Update Introduce
-                        </div>
-                      </div>,
-                      <div
-                        className={classes.dropdownLink}
-                        onClick={() => dispatch(UserActions.SignOut())}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} fas fa-sign-out-alt`}
-                          />
-                          Sign Out
-                        </div>
-                      </div>
-                    ])
-                  : dataUser.concat([
-                      <div
-                        className={classes.dropdownLink}
-                        onClick={() => dispatch(UserActions.SignOut())}
-                      >
-                        <div>
-                          <i
-                            className={`${classes.socialIcons} fas fa-sign-out-alt`}
-                          />
-                          Sign Out
-                        </div>
-                      </div>
-                    ])
-              }
-            />
-          </ListItem>
-        </>
-      ) : (
-        <>
-          <ListItem className={classes.listItem}>
-            <div
-              onClick={() => {
-                dispatch(UserActions.emitRemoveErrorAction());
-                history.push('/user/register');
-              }}
-            >
-              <Button
-                color="transparent"
-                target="_blank"
-                className={classes.navLink}
-              >
-                <i className={`${classes.socialIcons} fas fa-registered`} />
-                Sign Up
-              </Button>
-            </div>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <div
-              onClick={() => {
-                dispatch(UserActions.emitRemoveErrorAction());
-                history.push('/user/login');
-              }}
-            >
-              <Button
-                color="transparent"
-                target="_blank"
-                className={classes.navLink}
-              >
-                <i className={`${classes.socialIcons} fas fa-sign-in-alt`} />{' '}
-                Sign In
-              </Button>
-            </div>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <Tooltip
-              id="facebook-tooltip"
-              title="Login facebook"
-              placement={window.innerWidth > 959 ? 'top' : 'left'}
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <Button
-                color="transparent"
-                target="_blank"
-                href="https://wusbeuser.herokuapp.com/user/auth/facebook"
-                className={classes.navLink}
-              >
-                <i className={`${classes.socialIcons} fab fa-facebook`} />
-              </Button>
-            </Tooltip>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <Tooltip
-              id="google-tooltip"
-              title="Login google"
-              placement={window.innerWidth > 959 ? 'top' : 'left'}
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <Button
-                color="transparent"
-                target="_blank"
-                href="https://wusbeuser.herokuapp.com/user/auth/google"
-                className={classes.navLink}
-              >
-                <i className={`${classes.socialIcons} fab fa-google`} />
-              </Button>
-            </Tooltip>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <CustomInput
-                white
-                inputRootCustomClasses={classes.inputRootCustomClasses}
-                formControlProps={{
-                  className: classes.formControlNav
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem className={classes.listItem}>
+              <div
+                onClick={() => {
+                  dispatch(UserActions.emitRemoveErrorAction());
+                  history.push('/user/register');
                 }}
-                inputProps={{
-                  placeholder: 'Search',
-                  inputProps: {
-                    'aria-label': 'Search',
-                    className: classes.searchInput
-                  }
+              >
+                <Button
+                  color="transparent"
+                  target="_blank"
+                  className={classes.navLink}
+                >
+                  <i className={`${classes.socialIcons} fas fa-registered`} />
+                  Sign Up
+                </Button>
+              </div>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <div
+                onClick={() => {
+                  dispatch(UserActions.emitRemoveErrorAction());
+                  history.push('/user/login');
                 }}
-              />
-              <Button justIcon round color="white">
-                <Search className={classes.searchIcon} />
-              </Button>
-            </div>
-          </ListItem>
-        </>
-      )}
-    </List>
+              >
+                <Button
+                  color="transparent"
+                  target="_blank"
+                  className={classes.navLink}
+                >
+                  <i className={`${classes.socialIcons} fas fa-sign-in-alt`} />{' '}
+                  Sign In
+                </Button>
+              </div>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Tooltip
+                id="facebook-tooltip"
+                title="Login facebook"
+                placement={window.innerWidth > 959 ? 'top' : 'left'}
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <Button
+                  color="transparent"
+                  target="_blank"
+                  href="https://wusbeuser.herokuapp.com/user/auth/facebook"
+                  className={classes.navLink}
+                >
+                  <i className={`${classes.socialIcons} fab fa-facebook`} />
+                </Button>
+              </Tooltip>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Tooltip
+                id="google-tooltip"
+                title="Login google"
+                placement={window.innerWidth > 959 ? 'top' : 'left'}
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <Button
+                  color="transparent"
+                  target="_blank"
+                  href="https://wusbeuser.herokuapp.com/user/auth/google"
+                  className={classes.navLink}
+                >
+                  <i className={`${classes.socialIcons} fab fa-google`} />
+                </Button>
+              </Tooltip>
+            </ListItem>
+          </>
+        )}
+      </List>
+      <Dialog
+        style={{ minHeight: '500px', minWidth: '450px' }}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent style={{ minHeight: '450px', minWidth: '450px' }}>
+          <Chat
+            tutorName={username}
+            tuteeName={sv}
+            senderName={username}
+            receiverName={sv}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

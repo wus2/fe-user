@@ -6,6 +6,7 @@ import SignIn from 'pages/SignIn';
 import SignUp from 'pages/SignUp';
 import Deal from 'pages/Deal';
 import UpdateProfile from 'pages/UpdateProfile';
+import ForgotPassword from 'pages/ForgotPassword';
 import UpdateAvatar from 'pages/UpdateAvatar';
 import UpdateSkills from 'pages/UpdateSkills';
 import UpdatePassword from 'pages/UpdatePassword';
@@ -31,6 +32,7 @@ class Routers extends React.PureComponent {
           <Route exact path="/user/avatar" component={UpdateAvatar} />
           <Route exact path="/user/password" component={UpdatePassword} />
           <Route exact path="/user/deal/:tutorID" component={Deal} />
+          <Route exact path="/user/forgotpassword" component={ForgotPassword} />
           <Route exact path="/tutor/skills" component={UpdateSkills} />
           <Route exact path="/tutor/introduce/:tutorID" component={Introduce} />
           <Route

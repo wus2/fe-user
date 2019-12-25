@@ -47,7 +47,7 @@ const VayVonDialog = props => {
     address: '',
     dien: '',
     doituong: '',
-    date: moment(date).format('DD/MM/YYYY')
+    date: moment(date * 1000).format('DD/MM/YYYY')
   });
 
   const dataThuocDien = ['Không miễn giảm', 'Giảm học phí', 'Miễn học phí'];
