@@ -1,8 +1,7 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'http://192.168.0.145:55210',
-  // baseURL: 'https://wusbeuser.herokuapp.com/',
+  baseURL: 'https://wusbeuser.herokuapp.com',
   timeout: 10000,
   headers: {
     Accept: 'application/json',
