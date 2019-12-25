@@ -183,10 +183,7 @@ export const UpdateIntroduce = async introDesc => {
 
 export const GetSkills = async () => {
   try {
-    const token = window.localStorage.getItem('token');
-    const response = await instance.get('/tutor/getallskills', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await instance.get('/user/getallskill');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -263,7 +260,7 @@ export const GetListNoti = async offset => {
   return null;
 };
 
-export const GetListHisDeal = async offset => {
+export const GetListHisDealTutee = async offset => {
   const token = window.localStorage.getItem('token');
   try {
     const response = await instance.get(
@@ -279,10 +276,39 @@ export const GetListHisDeal = async offset => {
   return null;
 };
 
-export const GetDetailDeal = async contractID => {
+export const GetListHisDealTutor = async offset => {
   const token = window.localStorage.getItem('token');
   try {
-    const response = await instance.get(`/tutee/evaluaterate/${contractID}`, {
+    const response = await instance.get(
+      `/tutor/contracthistory/page/${offset}/limit/12`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetDetailDealTutee = async contractID => {
+  const token = window.localStorage.getItem('token');
+  try {
+    const response = await instance.get(`/tutee/contract/${contractID}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const GetDetailDealTutor = async contractID => {
+  const token = window.localStorage.getItem('token');
+  try {
+    const response = await instance.get(`/tutor/contract/${contractID}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
@@ -296,8 +322,46 @@ export const FilterTutor = async (offset, state) => {
   const { district, minPrice, maxPrice, skill } = state;
   try {
     const response = await instance.get(
-      `/tutor/filtertutor/page/${offset}/limit/12`,
-      { district, minPrice, maxPrice, skill }
+      `/tutor/filtertutor?page=${offset}&limit=12&district=${district}&minPrice=${minPrice}&maxPrice=${maxPrice}&skill=${skill}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const Payment = async contractID => {
+  const token = window.localStorage.getItem('token');
+
+  try {
+    const response = await instance.get(`/order/create/${contractID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+export const Evaluate = async (contractID, state) => {
+  const token = window.localStorage.getItem('token');
+  const { stars, comment } = state;
+  try {
+    const response = await instance.post(
+      `/tutee/evaluate/${contractID}`,
+      {
+        stars,
+        comment
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     );
     return response.data;
   } catch (error) {

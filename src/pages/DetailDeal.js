@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import * as UserActions from 'reduxs/reducers/User/action';
 import history from 'historyConfig';
+import { useSelector, useDispatch } from 'react-redux';
 // nodejs library that concatenates classes
 import moment from 'moment';
 import classNames from 'classnames';
@@ -36,7 +37,7 @@ export default function Introduce(props) {
   const { ...rest } = props;
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
-  const { detailDeal, role, isSignIn } = userState;
+  const { detailDeal, role } = userState;
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
@@ -44,7 +45,7 @@ export default function Introduce(props) {
   );
   const [open, setOpen] = React.useState(false);
   const [rate, setRate] = React.useState({
-    star: 0,
+    stars: 0,
     comment: null
   });
   const handleClickOpen = () => {
@@ -82,9 +83,9 @@ export default function Introduce(props) {
                       </b>
                       <b>
                         {' '}
-                        <h4>Giá tiền(VNĐ/giờ): {detailDeal.price}</h4>
+                        <h4>Giá tiền(VNĐ/giờ): {detailDeal.price_per_hour}</h4>
                       </b>
-                      <Star star={detailDeal.rate} />
+                      <Star star={detailDeal.num_stars / detailDeal.num_rate} />
                     </div>
                   ) : (
                     ''
@@ -116,21 +117,39 @@ export default function Introduce(props) {
                       <b>Liên hệ:</b> {detailDeal.phone}
                     </p>
                   </div>
+
                   <div className={classes.description}>
                     <p>
-                      <b>Giới thiệu:</b> {detailDeal.intro_desc}
+                      <b>Giờ học:</b> {detailDeal.rent_time}
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Giờ học:</b> {detailDeal.price}
+                      <b>Thanh toán:</b> {detailDeal.order_amount} VNĐ
                     </p>
                   </div>
                   <div className={classes.description}>
                     <p>
-                      <b>Ngày tạo:</b> {detailDeal.price}
+                      <b>Ngày tạo:</b>{' '}
+                      {moment(detailDeal.order_create_date).format(
+                        'DD-MM-YYYY'
+                      )}
                     </p>
                   </div>
+                  <div className={classes.description}>
+                    <p>
+                      <b>Chi tiết:</b> {detailDeal.desc}
+                    </p>
+                  </div>
+                  {detailDeal.comment ? (
+                    <div className={classes.description}>
+                      <p>
+                        <b>Phản hồi:</b> {detailDeal.comment}
+                      </p>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   {role === 2 ? (
                     <div className={classes.description}>
                       <p>
@@ -157,7 +176,9 @@ export default function Introduce(props) {
                 </div>
               </Grid>
               {role === 2 ? (
-                isSignIn ? (
+                detailDeal.status === 8 &&
+                !detailDeal.stars &&
+                !detailDeal.comment ? (
                   <>
                     <Divider className={classes.divider} />
                     <Button onClick={handleClickOpen} size="sm" color="primary">
@@ -179,10 +200,14 @@ export default function Introduce(props) {
                           borderColor="transparent"
                         >
                           <Rating
+                            style={{
+                              display: 'flex'
+                              // justifyContent: 'center'
+                            }}
                             name="simple-controlled"
-                            value={rate.star}
+                            value={rate.stars}
                             onChange={(event, newValue) => {
-                              setRate({ ...rate, star: newValue });
+                              setRate({ ...rate, stars: newValue });
                             }}
                           />
                           <CustomInput
@@ -191,8 +216,8 @@ export default function Introduce(props) {
                             formControlProps={{
                               fullWidth: true
                             }}
-                            handleChange={(event, newValue) => {
-                              setRate({ ...rate, comment: newValue });
+                            handleChange={event => {
+                              setRate({ ...rate, comment: event.target.value });
                             }}
                             inputProps={{
                               multiline: true,
@@ -207,7 +232,17 @@ export default function Introduce(props) {
                         <Button onClick={handleClose} color="primary">
                           Close
                         </Button>
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        <Button
+                          onClick={() => {
+                            dispatch(
+                              UserActions.Evaluate(detailDeal.cid, rate)
+                            );
+                            setOpen(false);
+                            history.push('/contracthistory');
+                          }}
+                          color="primary"
+                          autoFocus
+                        >
                           Evaluate
                         </Button>
                       </DialogActions>

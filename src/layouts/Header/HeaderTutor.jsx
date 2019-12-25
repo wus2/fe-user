@@ -21,7 +21,7 @@ export default function HeaderTutor(props) {
         <div
           onClick={() => {
             dispatch(UserActions.GetListHisDeal(1));
-            history.push('/tutee/contracthistory');
+            history.push('/contracthistory');
           }}
         >
           <Button

@@ -65,7 +65,7 @@ export default function Home(props) {
                   return (
                     <Grid item xs={12} sm={12} md={3}>
                       <Card
-                        style={{ minHeight: '300px' }}
+                        style={{ minHeight: '300px', display: 'grid' }}
                         className={classes.card}
                       >
                         <CardHeader
@@ -112,12 +112,14 @@ export default function Home(props) {
                         </CardContent>
                         <Divider className={classes.divider} />
                         <CardActions
-                          style={{ justifyContent: 'space-between' }}
+                          style={{
+                            justifyContent: 'space-between'
+                          }}
                         >
                           <div>
                             <b>{data.price_per_hour} VNĐ/H</b>
                           </div>
-                          <Star star={data.num_rate} />
+                          <Star star={data.num_stars / data.num_rate} />
                           <Button
                             size="sm"
                             color="primary"

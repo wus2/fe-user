@@ -85,6 +85,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, historyDeal: action.payload };
     case ActionTypes.GET_DETAIL_DEAL:
       return { ...state, detailDeal: action.payload };
+    case ActionTypes.PAYMENT:
+      return { ...state };
+    case ActionTypes.EVALUATE:
+      return { ...state };
     default:
       return { ...state };
   }

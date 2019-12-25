@@ -16,7 +16,6 @@ export default function HeaderNav(props) {
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
   const { isSignIn, role, tutors, skills, socket } = userState;
-
   if (!skills) {
     dispatch(UserActions.GetSkills());
   }

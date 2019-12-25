@@ -14,10 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { Grid, Divider } from '@material-ui/core';
 import Parallax from 'shared/Components/Parallax';
 import Button from 'shared/Components/Button';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
 import Paginations from 'shared/Components/Pagination';
-import Star from 'shared/Components/Star';
 import image from 'shared/Img/logo192.png';
 import styles from 'shared/Styles/components';
 
@@ -28,7 +25,7 @@ export default function HistoryHome(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
-  const { historyDeal } = userState;
+  const { historyDeal, role } = userState;
   const { ...rest } = props;
 
   return (
@@ -72,24 +69,44 @@ export default function HistoryHome(props) {
                             color="textSecondary"
                             component="p"
                           >
-                            Giờ học: {data.intro_desc}
+                            Giờ học: {data.rent_time}
                           </Typography>
                           <Typography
                             variant="body2"
                             color="textSecondary"
                             component="p"
                           >
-                            Giá tiền: {data.intro_desc}
+                            Thanh toán: {data.order_amount} VNĐ
                           </Typography>
                         </CardContent>
                         <Divider className={classes.divider} />
-                        <CardActions style={{ justifyContent: 'center' }}>
+                        <CardActions style={{ justifyContent: 'space-around' }}>
+                          {role === 2 && data.status !== 4 ? (
+                            <Button
+                              size="sm"
+                              color="primary"
+                              href={`https://wusbeuser.herokuapp.com/order/create/${data.cid}`}
+                              // onClick={() => {
+                              //   dispatch(UserActions.GetDetailDeal(data.cid));
+                              // }}
+                            >
+                              Payment
+                            </Button>
+                          ) : (
+                            <Button
+                              size="sm"
+                              color="primary"
+                              href={`https://wusbeuser.herokuapp.com/order/create/${data.cid}`}
+                              disabled
+                            >
+                              Payment
+                            </Button>
+                          )}
                           <Button
                             size="sm"
                             color="primary"
-                            className={classes.profile}
                             onClick={() => {
-                              dispatch(UserActions.GetDetailDeal(data.id));
+                              dispatch(UserActions.GetDetailDeal(data.cid));
                             }}
                           >
                             Detail
@@ -108,7 +125,7 @@ export default function HistoryHome(props) {
                       if (page === 1) return;
                       page -= 1;
                       dispatch(UserActions.GetListHisDeal(page));
-                      history.push(`/page/${page}`);
+                      history.push(`/contracthistory/page/${page}`);
                     }
                   },
                   {
@@ -117,7 +134,7 @@ export default function HistoryHome(props) {
                       if (historyDeal.length === 0) return;
                       page += 1;
                       dispatch(UserActions.GetListHisDeal(page));
-                      history.push(`/page/${page}`);
+                      history.push(`/contracthistory/page/${page}`);
                     }
                   }
                 ]}

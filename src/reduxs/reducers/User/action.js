@@ -1,7 +1,6 @@
 import * as UserHandler from 'reduxs/handlers/UserHandler';
 import { isNull } from 'util';
 import history from 'historyConfig';
-import store from 'store';
 import io from 'socket.io-client';
 import ActionTypes from './actionTypes';
 
@@ -208,6 +207,7 @@ export const GetSkills = () => async dispatch => {
       data.map(item => {
         return arr.push(item.tag);
       });
+
       dispatch(emitGetSkills(arr));
     }
   }
@@ -222,6 +222,7 @@ export const emitGetListTutor = tutors => {
 
 export const GetListTutor = offset => async dispatch => {
   const responseData = await UserHandler.GetListTutor(offset);
+
   if (!isNull(responseData)) {
     const { code, data } = responseData;
     if (code === 1) {
@@ -258,7 +259,7 @@ export const emitRentTutor = name => {
 };
 
 export const RentTutor = state => async dispatch => {
-  const responseData = await UserHandler.RentTutor(state);
+  const responseData = UserHandler.RentTutor(state);
   if (!isNull(responseData)) {
     const { code, message } = responseData;
     if (code === 1) {
@@ -298,10 +299,10 @@ export const GetListNoti = offset => async dispatch => {
   }
 };
 
-export const emitGetListHisDeal = noti => {
+export const emitGetListHisDeal = his => {
   return {
-    type: ActionTypes.GET_LIST_NOTI,
-    payload: noti
+    type: ActionTypes.GET_LIST_HIS,
+    payload: his
   };
 };
 
@@ -310,7 +311,7 @@ export const GetListHisDeal = offset => async dispatch => {
   if (!isNull(responseData)) {
     const { code, data } = responseData;
     if (code === 1) {
-      dispatch(emitGetListNoti(data));
+      dispatch(emitGetListHisDeal(data));
     }
   }
 };
@@ -328,6 +329,7 @@ export const GetDetailDeal = contractID => async dispatch => {
     const { code, data } = responseData;
     if (code === 1) {
       dispatch(emitGetDetailDeal(data));
+      history.push(`/contract/${contractID}`);
     }
   }
 };
@@ -338,6 +340,39 @@ export const FilterTutor = (offset, state) => async dispatch => {
     const { code, data } = responseData;
     if (code === 1) {
       dispatch(emitGetListTutor(data));
+    }
+  }
+};
+
+export const emitPayment = () => {
+  return {
+    type: ActionTypes.PAYMENT
+  };
+};
+
+export const Payment = contractID => async dispatch => {
+  const responseData = await UserHandler.Payment(contractID);
+  if (!isNull(responseData)) {
+    const { code } = responseData;
+    if (code === 1) {
+      dispatch(emitPayment());
+    }
+  }
+};
+
+export const emitEvaluate = () => {
+  return {
+    type: ActionTypes.EVALUATE
+  };
+};
+
+export const Evaluate = (contractID, state) => async dispatch => {
+  const responseData = await UserHandler.Evaluate(contractID, state);
+  console.log(responseData);
+  if (!isNull(responseData)) {
+    const { code } = responseData;
+    if (code === 1) {
+      dispatch(emitEvaluate());
     }
   }
 };

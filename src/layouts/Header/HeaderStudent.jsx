@@ -18,12 +18,12 @@ export default function HeaderStudent(props) {
   const userState = useSelector(state => state.userState);
   const dispatch = useDispatch();
 
-  const [filter, setFilter] = React.useState({
-    district: null,
+  const values = {
+    district: '',
     minPrice: null,
     maxPrice: null,
-    skill: null
-  });
+    skill: ''
+  };
 
   const dataDistricts = [];
   const dataSkills = [];
@@ -31,14 +31,9 @@ export default function HeaderStudent(props) {
     return dataDistricts.push(
       <div
         onClick={() => {
-          setFilter({
-            district: item,
-            minPrice: null,
-            maxPrice: null,
-            skill: null
-          });
-          dispatch(UserActions.FilterTutor(1, filter));
-          history.push(`/filter/${item}`);
+          values.district = item;
+          dispatch(UserActions.FilterTutor(1, values));
+          history.push(`/filter/district`);
         }}
         className={classes.dropdownLink}
       >
@@ -51,14 +46,9 @@ export default function HeaderStudent(props) {
       return dataSkills.push(
         <div
           onClick={() => {
-            setFilter({
-              district: null,
-              minPrice: null,
-              maxPrice: null,
-              skill: item
-            });
-            dispatch(UserActions.FilterTutor(1, filter));
-            history.push(`/filter/${item}`);
+            values.skill = item;
+            dispatch(UserActions.FilterTutor(1, values));
+            history.push(`/filter/skill`);
           }}
           className={classes.dropdownLink}
         >
@@ -108,13 +98,9 @@ export default function HeaderStudent(props) {
           dropdownList={[
             <div
               onClick={() => {
-                setFilter({
-                  district: null,
-                  minPrice: 50000,
-                  maxPrice: null,
-                  skill: null
-                });
-                dispatch(UserActions.FilterTutor(1, filter));
+                values.maxPrice = 50000;
+                values.minPrice = null;
+                dispatch(UserActions.FilterTutor(1, values));
                 history.push(`/filter/50000`);
               }}
               className={classes.dropdownLink}
@@ -123,13 +109,9 @@ export default function HeaderStudent(props) {
             </div>,
             <div
               onClick={() => {
-                setFilter({
-                  district: null,
-                  minPrice: 50000,
-                  maxPrice: 100000,
-                  skill: null
-                });
-                dispatch(UserActions.FilterTutor(1, filter));
+                values.minPrice = 50000;
+                values.maxPrice = 100000;
+                dispatch(UserActions.FilterTutor(1, values));
                 history.push(`/filter/50000-100000`);
               }}
               className={classes.dropdownLink}
@@ -138,13 +120,9 @@ export default function HeaderStudent(props) {
             </div>,
             <div
               onClick={() => {
-                setFilter({
-                  district: null,
-                  minPrice: 100000,
-                  maxPrice: 150000,
-                  skill: null
-                });
-                dispatch(UserActions.FilterTutor(1, filter));
+                values.minPrice = 100000;
+                values.maxPrice = 150000;
+                dispatch(UserActions.FilterTutor(1, values));
                 history.push(`/filter/100000-150000`);
               }}
               className={classes.dropdownLink}
@@ -153,13 +131,9 @@ export default function HeaderStudent(props) {
             </div>,
             <div
               onClick={() => {
-                setFilter({
-                  district: null,
-                  minPrice: null,
-                  maxPrice: 150000,
-                  skill: null
-                });
-                dispatch(UserActions.FilterTutor(1, filter));
+                values.minPrice = 150000;
+                values.maxPrice = null;
+                dispatch(UserActions.FilterTutor(1, values));
                 history.push(`/filter/150000`);
               }}
               className={classes.dropdownLink}
@@ -182,23 +156,27 @@ export default function HeaderStudent(props) {
           </Button>
         </div>
       </ListItem>
-      <ListItem className={classes.listItem}>
-        <div
-          onClick={() => {
-            dispatch(UserActions.GetListHisDeal(1));
-            history.push('/tutee/contracthistory');
-          }}
-        >
-          <Button
-            color="transparent"
-            target="_blank"
-            className={classes.navLink}
+      {userState.isSignIn ? (
+        <ListItem className={classes.listItem}>
+          <div
+            onClick={() => {
+              dispatch(UserActions.GetListHisDeal(1));
+              history.push('/contracthistory');
+            }}
           >
-            <i className={`${classes.socialIcons} fas fa-history`} />
-            Lịch Sử
-          </Button>
-        </div>
-      </ListItem>
+            <Button
+              color="transparent"
+              target="_blank"
+              className={classes.navLink}
+            >
+              <i className={`${classes.socialIcons} fas fa-history`} />
+              Lịch Sử
+            </Button>
+          </div>
+        </ListItem>
+      ) : (
+        ''
+      )}
     </List>
   );
 }

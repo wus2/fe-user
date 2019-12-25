@@ -11,6 +11,7 @@ import UpdateSkills from 'pages/UpdateSkills';
 import UpdatePassword from 'pages/UpdatePassword';
 import UpdateIntroduce from 'pages/UpdateIntroduce';
 import HistoryHome from 'pages/HistoryHome';
+import DetailDeal from 'pages/DetailDeal';
 
 import Introduce from 'pages/Introduce';
 
@@ -23,6 +24,7 @@ class Routers extends React.PureComponent {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/page/:page" component={Home} />
+          <Route exact path="/filter/:filter" component={Home} />
           <Route exact path="/user/login" component={SignIn} />
           <Route exact path="/user/register" component={SignUp} />
           <Route exact path="/user/profile" component={UpdateProfile} />
@@ -36,10 +38,12 @@ class Routers extends React.PureComponent {
             path="/tutor/updateintroduce"
             component={UpdateIntroduce}
           />
-          <Route exact path="/tutee/contracthistory" component={HistoryHome} />
+          <Route exact path="/contracthistory" component={HistoryHome} />
+          <Route exact path="/contract/:contractID" component={DetailDeal} />
+
           <Route
             exact
-            path="/tutee/contracthistory/page/:page"
+            path="/contracthistory/page/:page"
             component={HistoryHome}
           />
         </Switch>

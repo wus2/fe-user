@@ -1,4 +1,5 @@
 import * as HttpClient from 'services/httpClient';
+import store from 'store';
 
 export const SignIn = async (username, password) => {
   const rs = await HttpClient.SignIn(username, password);
@@ -72,16 +73,36 @@ export const GetListNoti = async offset => {
 };
 
 export const GetListHisDeal = async offset => {
-  const rs = await HttpClient.GetListHisDeal(offset);
+  const { role } = store.getState().userState;
+  if (role === 2) {
+    const rs = await HttpClient.GetListHisDealTutee(offset);
+    return rs;
+  }
+  const rs = await HttpClient.GetListHisDealTutor(offset);
   return rs;
 };
 
 export const GetDetailDeal = async contractID => {
-  const rs = await HttpClient.GetDetailDeal(contractID);
+  const { role } = store.getState().userState;
+  if (role === 2) {
+    const rs = await HttpClient.GetDetailDealTutee(contractID);
+    return rs;
+  }
+  const rs = await HttpClient.GetDetailDealTutor(contractID);
   return rs;
 };
 
 export const FilterTutor = async (offset, state) => {
   const rs = await HttpClient.FilterTutor(offset, state);
+  return rs;
+};
+
+export const Payment = async contractID => {
+  const rs = await HttpClient.Payment(contractID);
+  return rs;
+};
+
+export const Evaluate = async (contractID, state) => {
+  const rs = await HttpClient.Evaluate(contractID, state);
   return rs;
 };
