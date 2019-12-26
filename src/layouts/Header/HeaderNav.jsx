@@ -8,6 +8,7 @@ import HeaderLinks from 'layouts/Header/HeaderLinks';
 import HeaderStudent from 'layouts/Header/HeaderStudent';
 import HeaderTutor from 'layouts/Header/HeaderTutor';
 import styles from 'shared/Styles/components';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -16,16 +17,8 @@ export default function HeaderNav(props) {
   const dispatch = useDispatch();
   const userState = useSelector(state => state.userState);
   const { isSignIn, role, tutors, skills, socket, topTutor } = userState;
-  if (!skills) {
-    dispatch(UserActions.GetSkills());
-  }
-
-  if (!tutors) {
-    dispatch(UserActions.GetListTutor(1));
-  }
-
-  if (!topTutor) {
-    dispatch(UserActions.GetTopTutor());
+  if (!tutors && !topTutor && !skills) {
+    dispatch(UserActions.GetAllListBegin(1));
   }
 
   if (!socket) {

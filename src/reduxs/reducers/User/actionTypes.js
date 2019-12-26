@@ -19,7 +19,8 @@ const ActionTypes = {
   PAYMENT: 'PAYMENT',
   EVALUATE: 'EVALUATE',
   GET_TOP_TUTOR: 'GET_TOP_TUTOR',
-  GET_COMMENT: 'GET_COMMENT'
+  GET_COMMENT: 'GET_COMMENT',
+  GET_ALL_LIST: 'GET_ALL_LIST'
 };
 
 export default ActionTypes;

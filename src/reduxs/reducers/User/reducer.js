@@ -95,6 +95,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, topTutor: action.payload };
     case ActionTypes.GET_COMMENT:
       return { ...state, comments: action.payload };
+    case ActionTypes.GET_ALL_LIST:
+      return {
+        ...state,
+        tutors: action.payload.tutors,
+        skills: action.payload.skills,
+        topTutor: action.payload.topTutor
+      };
     default:
       return { ...state };
   }

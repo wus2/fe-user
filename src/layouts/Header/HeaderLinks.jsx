@@ -264,7 +264,8 @@ export default function Temp(props) {
                           </div>
                         </div>
                       ])
-                    : dataUser.concat([
+                    : role === 2
+                    ? dataUser.concat([
                         <div
                           className={classes.dropdownLink}
                           onClick={() => dispatch(UserActions.SignOut())}
@@ -277,6 +278,32 @@ export default function Temp(props) {
                           </div>
                         </div>
                       ])
+                    : [
+                        <div className={classes.dropdownLink}>
+                          <div>
+                            <a
+                              href="http://112.197.2.178:8003"
+                              style={{ textDecoration: 'none' }}
+                            >
+                              <i
+                                className={`${classes.socialIcons} fas fa-info-circle`}
+                              />
+                              Admin
+                            </a>
+                          </div>
+                        </div>,
+                        <div
+                          className={classes.dropdownLink}
+                          onClick={() => dispatch(UserActions.SignOut())}
+                        >
+                          <div>
+                            <i
+                              className={`${classes.socialIcons} fas fa-sign-out-alt`}
+                            />
+                            Sign Out
+                          </div>
+                        </div>
+                      ]
                 }
               />
             </ListItem>

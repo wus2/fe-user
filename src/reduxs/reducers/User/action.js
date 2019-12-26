@@ -296,7 +296,7 @@ export const emitCreateSocket = socket => {
 };
 
 export const CreateSocket = () => async dispatch => {
-  const socket = io('192.168.0.145:55210');
+  const socket = io('https://wusbeuser.herokuapp.com');
   dispatch(emitCreateSocket(socket));
 };
 
@@ -431,6 +431,43 @@ export const PostStatusContract = (contractID, status) => async dispatch => {
     const { code } = responseData;
     if (code === 1) {
       return history.push(`/`);
+    }
+  }
+};
+
+export const emitGetAllListBegin = object => {
+  return {
+    type: ActionTypes.GET_ALL_LIST,
+    payload: object
+  };
+};
+
+export const GetAllListBegin = offset => async dispatch => {
+  const responseData1 = await UserHandler.GetListTutor(offset);
+  const responseData2 = await UserHandler.GetSkills();
+  const responseData3 = await UserHandler.GetTopTutor();
+
+  if (
+    !isNull(responseData1) &&
+    !isNull(responseData2) &&
+    !isNull(responseData3)
+  ) {
+    const code1 = responseData1.code;
+    const code2 = responseData2.code;
+    const code3 = responseData3.code;
+    const data2 = responseData2.data;
+
+    if (code1 === 1 && code2 === 1 && code3 === 1) {
+      const arr = [];
+      data2.map(item => {
+        return arr.push(item.tag);
+      });
+      const object = {
+        tutors: responseData1.data,
+        skills: arr,
+        topTutor: responseData3.data
+      };
+      dispatch(emitGetAllListBegin(object));
     }
   }
 };

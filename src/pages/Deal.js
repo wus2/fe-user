@@ -49,7 +49,7 @@ export default function UserProfile() {
   };
 
   const handleDateChange = date => {
-    date = moment(date*1000).format('YYYY-MM-DD');
+    date = moment(date).format('YYYY-MM-DD');
     setState({ ...state, startTime: date });
   };
   return (

@@ -46,18 +46,6 @@ export default function HeaderTutor(props) {
           </Button>
         </div>
       </ListItem>
-      <ListItem className={classes.listItem}>
-        <div onClick={() => history.push('/')}>
-          <Button
-            color="transparent"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={`${classes.socialIcons} far fa-chart-bar`} />
-            Thống Kê
-          </Button>
-        </div>
-      </ListItem>
     </List>
   );
 }

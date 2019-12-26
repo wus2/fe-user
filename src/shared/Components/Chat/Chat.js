@@ -14,7 +14,10 @@ export default function Chat(props) {
     messages: [],
     user: null
   });
-
+  socket.on('init', res => setState({ ...state, user: res })); // lắng nghe event có tên 'id'
+  socket.on('chat', response => {
+    newMessage(response);
+  });
   useEffect(() => {
     socket.on('init', res => setState({ ...state, user: res })); // lắng nghe event có tên 'id'
     socket.on('chat', response => {
