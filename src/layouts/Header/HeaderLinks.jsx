@@ -46,30 +46,30 @@ export default function Temp(props) {
   };
 
   const dataMess = [];
-  let talk = null;
+  // let talk = null;
 
-  socket.emit('init', username);
-  if (role === 1) {
-    socket.on('chat', response => {
-      const { id, sender } = response;
-      if (talk !== id) {
-        talk = id;
-        sv = sender;
-        dataMess.push(
-          <div onClick={handleClickOpen}>
-            <Grid container>
-              <Grid item xs={12} sm={12} md={12}>
-                <p>{sender} đã gửi bạn một tin nhắn</p>
-              </Grid>
-              <Grid item xs={12} sm={12} md={12}>
-                <Divider className={classes.divider} />
-              </Grid>
-            </Grid>
-          </div>
-        );
-      }
-    });
-  }
+  // socket.emit('init', username);
+  // if (role === 1) {
+  //   socket.on('chat', response => {
+  //     const { id, sender } = response;
+  //     if (talk !== id) {
+  //       talk = id;
+  //       sv = sender;
+  //       dataMess.push(
+  //         <div onClick={handleClickOpen}>
+  //           <Grid container>
+  //             <Grid item xs={12} sm={12} md={12}>
+  //               <p>{sender} đã gửi bạn một tin nhắn</p>
+  //             </Grid>
+  //             <Grid item xs={12} sm={12} md={12}>
+  //               <Divider className={classes.divider} />
+  //             </Grid>
+  //           </Grid>
+  //         </div>
+  //       );
+  //     }
+  //   });
+  // }
 
   const dataNoti = [];
   if (notification) {

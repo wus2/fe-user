@@ -21,9 +21,9 @@ export default function HeaderNav(props) {
     dispatch(UserActions.GetAllListBegin(1));
   }
 
-  if (!socket) {
-    dispatch(UserActions.CreateSocket());
-  }
+  // if (!socket) {
+  //   dispatch(UserActions.CreateSocket());
+  // }
 
   if (!isSignIn && window.localStorage.getItem('token') !== null) {
     dispatch(UserActions.GetProfile());
