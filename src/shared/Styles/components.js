@@ -1,6 +1,10 @@
-import { container } from '../material-kit-react.js';
+import { container, title, divider } from '../material-kit-react';
 
 const componentsStyle = {
+  divider: {
+    ...divider,
+    width: '90%'
+  },
   container,
   brand: {
     color: '#FFFFFF',
@@ -18,7 +22,7 @@ const componentsStyle = {
     margin: '10px 0 0'
   },
   main: {
-    background: '#FFFFFF',
+    background: '#f1f1f1',
     position: 'relative',
     zIndex: '3'
   },
@@ -32,6 +36,33 @@ const componentsStyle = {
     textDecoration: 'none'
   },
   textCenter: {
+    textAlign: 'center'
+  },
+  flex: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  skilltags: {
+    background: '#e0e0e0',
+    borderRadius: '4px',
+    color: '#222',
+    fontSize: '14px',
+    display: 'inline-block',
+    padding: '5px 8px',
+    lineHeight: '1',
+    margin: '2px 2px 2px 0',
+    width: 'auto'
+  },
+  card: {
+    maxWidth: 400
+  },
+  profile: {
+    marginLeft: 'auto'
+  },
+  topic: {
+    ...title,
+    textDecoration: 'none',
     textAlign: 'center'
   }
 };

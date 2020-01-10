@@ -78,6 +78,17 @@ const customInputStyle = {
       color: '#AAAAAA'
     }
   },
+  feedback: {
+    position: 'absolute',
+    top: '32px',
+    right: '0',
+    zIndex: '2',
+    display: 'block',
+    width: '24px',
+    height: '24px',
+    textAlign: 'center',
+    pointerEvents: 'none'
+  },
   whiteInput: {
     '&,&::placeholder': {
       color: '#FFFFFF',

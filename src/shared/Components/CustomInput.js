@@ -8,7 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-
+import Clear from '@material-ui/icons/Clear';
+import Check from '@material-ui/icons/Check';
 import styles from 'shared/Styles/customInputStyle';
 
 const useStyles = makeStyles(styles);
@@ -78,6 +79,11 @@ export default function CustomInput(props) {
         defaultValue={defaultVL}
         {...inputProps}
       />
+      {error ? (
+        <Clear className={`${classes.feedback} ${classes.labelRootError}`} />
+      ) : success ? (
+        <Check className={`${classes.feedback} ${classes.labelRootSuccess}`} />
+      ) : null}
     </FormControl>
   );
 }

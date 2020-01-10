@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from 'reduxs/reducers/User/action';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,18 +12,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
 import Email from '@material-ui/icons/Email';
 import HomeIcon from '@material-ui/icons/Home';
-import Warning from '@material-ui/icons/Warning';
+import PhoneIcon from '@material-ui/icons/Phone';
+import People from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
+import CardID from '@material-ui/icons/RecentActors';
+import Money from '@material-ui/icons/MonetizationOn';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
-import People from '@material-ui/icons/People';
 // core components
-import Header from 'layouts/Header/Header';
 import moment from 'moment';
-import HeaderLinks from 'layouts/Header/HeaderLinks';
 // import Footer from 'components/Footer/Footer';
 import SnackbarContent from 'shared/Components/SnackbarContent';
 import GridContainer from 'shared/Components/Grid/GridContainer';
@@ -34,8 +35,6 @@ import CardBody from 'shared/Components/Card/CardBody';
 import CardHeader from 'shared/Components/Card/CardHeader';
 import CardFooter from 'shared/Components/Card/CardFooter';
 import CustomInput from 'shared/Components/CustomInput';
-
-import Footer from 'layouts/Footer/Footer';
 
 import styles from 'shared/Styles/loginPage';
 
@@ -49,15 +48,29 @@ export default function RegisterPage(props) {
     setCardAnimation('');
   }, 700);
 
+  const drawData = data => {
+    return data.map((val, ind) => {
+      return (
+        <MenuItem key={ind} value={val}>
+          {val}
+        </MenuItem>
+      );
+    });
+  };
+  const userState = useSelector(state => state.userState);
+  const { errors } = userState;
+
   const [state, setState] = React.useState({
-    username: '',
-    name: '',
-    email: '',
-    address: '',
-    phone: '',
-    cardID: '',
-    gender: '',
-    password: '',
+    password: null,
+    username: null,
+    name: null,
+    email: null,
+    district: null,
+    address: null,
+    phone: null,
+    cardID: null,
+    gender: null,
+    price: null,
     role: null,
     dob: new Date('1900-12-16')
   });
@@ -69,22 +82,13 @@ export default function RegisterPage(props) {
   };
 
   const handleDateChange = date => {
-    date = moment(date).format('YYYY-MM-DD');
+    date = moment(date * 1000).format('YYYY-MM-DD');
     setState({ ...state, dob: date });
   };
 
   const classes = useStyles();
-  const { ...rest } = props;
   return (
     <div>
-      <Header
-        absolute
-        brand="Uber Tutor"
-        fixed
-        color="transparent"
-        rightLinks={<HeaderLinks />}
-        {...rest}
-      />
       <div
         className={classes.pageHeader}
         style={{
@@ -96,6 +100,20 @@ export default function RegisterPage(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={3}>
+              {errors ? (
+                <SnackbarContent
+                  message={
+                    <span>
+                      <b>{errors}</b>
+                    </span>
+                  }
+                  close
+                  color="danger"
+                  icon="info_outline"
+                />
+              ) : (
+                ''
+              )}
               <SnackbarContent
                 message={
                   <span>
@@ -104,7 +122,7 @@ export default function RegisterPage(props) {
                 }
                 close
                 color="success"
-                icon={Warning}
+                icon="info_outline"
               />
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
@@ -113,7 +131,7 @@ export default function RegisterPage(props) {
                     <div className={classes.socialLine}>
                       <Button
                         justIcon
-                        href="https://wusbeuser.herokuapp.com/users/auth/facebook"
+                        href="https://wusbeuser.herokuapp.com/user/auth/facebook"
                         target="_blank"
                         color="transparent"
                         // onClick={e => e.preventDefault()}
@@ -122,7 +140,7 @@ export default function RegisterPage(props) {
                       </Button>
                       <Button
                         justIcon
-                        href="https://wusbeuser.herokuapp.com/users/auth/google"
+                        href="https://wusbeuser.herokuapp.com/user/auth/google"
                         target="_blank"
                         color="transparent"
                         // onClick={e => e.preventDefault()}
@@ -133,139 +151,44 @@ export default function RegisterPage(props) {
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
-                    <CustomInput
-                      labelText="Họ tên"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('name')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('username')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Email"
-                      id="email"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('email')}
-                      inputProps={{
-                        type: 'email',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Địa chỉ"
-                      id="address"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('address')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <HomeIcon className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Số điện thoại"
-                      id="phone"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('phone')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="CMND"
-                      id="cardID"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      handleChange={handleChange('cardID')}
-                      inputProps={{
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+                    {data.map(item => {
+                      return (
+                        <CustomInput
+                          labelText={item.label}
+                          id={item.id}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          handleChange={handleChange(item.id)}
+                          inputProps={{
+                            required: true,
+                            type: `${item.type}`,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <item.icon
+                                  className={classes.inputIconsColor}
+                                />
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                      );
+                    })}
 
-                    {/* <CustomInput
-                      labelText="Xác nhận mật khẩu"
-                      id="confirm"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'password',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    /> */}
-                    {/* <CustomInput
-                      labelText="Ảnh đại diện"
-                      id="avatar"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'file',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <FaceIcon className={classes.inputIconsColor}>
-                              lock_outline
-                            </FaceIcon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: 'off'
-                      }}
-                    /> */}
+                    <FormControl fullWidth className={classes.formControl}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        Khu vực
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="district"
+                        value={state.district}
+                        onChange={handleChange('district')}
+                      >
+                        {drawData(district)}
+                      </Select>
+                    </FormControl>
+
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         style={{ width: '100%' }}
@@ -307,9 +230,30 @@ export default function RegisterPage(props) {
                         onChange={handleChange('role')}
                       >
                         <MenuItem value={1}>Gia sư</MenuItem>
-                        <MenuItem value={2}>Học giả</MenuItem>
+                        <MenuItem value={2}>Học viên</MenuItem>
                       </Select>
                     </FormControl>
+                    {state.role === 1 ? (
+                      <CustomInput
+                        labelText="Giá tiền (VNĐ/giờ)"
+                        id="price"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        handleChange={handleChange('price')}
+                        inputProps={{
+                          required: true,
+                          type: 'number',
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Money className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    ) : (
+                      <div />
+                    )}
                     <CustomInput
                       labelText="Mật khẩu"
                       id="password"
@@ -318,6 +262,7 @@ export default function RegisterPage(props) {
                       }}
                       handleChange={handleChange('password')}
                       inputProps={{
+                        required: true,
                         type: 'password',
                         endAdornment: (
                           <InputAdornment position="end">
@@ -346,7 +291,72 @@ export default function RegisterPage(props) {
           </GridContainer>
         </div>
       </div>
-      <Footer whiteFont />
     </div>
   );
 }
+
+const district = [
+  'Quận 1',
+  'Quận 2',
+  'Quận 3',
+  'Quận 4',
+  'Quận 5',
+  'Quận 6',
+  'Quận 7',
+  'Quận 8',
+  'Quận 9',
+  'Quận 10',
+  'Quận 11',
+  'Quận 12',
+  'Quận Thủ Đức',
+  'Quận Gò Vấp',
+  'Quận Bình Thạnh',
+  'Quận Tân Bình',
+  'Quận Tân Phú',
+  'Quận Phú Nhuận',
+  'Quận Bình Tân',
+  'Huyện Củ Chi',
+  'Huyện Hóc Môn',
+  'Huyện Bình Chánh',
+  'Huyện Nhà Bè',
+  'Huyện Cần Giờ'
+];
+
+const data = [
+  {
+    label: 'Username',
+    id: 'username',
+    type: 'text',
+    icon: PersonIcon
+  },
+  {
+    label: 'Họ tên',
+    id: 'name',
+    type: 'text',
+    icon: People
+  },
+  {
+    label: 'Email',
+    id: 'email',
+    type: 'email',
+    icon: Email
+  },
+  {
+    label: 'Số điện thoại',
+    id: 'phone',
+    type: 'text',
+    icon: PhoneIcon
+  },
+  {
+    label: 'CMND',
+    id: 'cardID',
+    type: 'text',
+    icon: CardID
+  },
+  {
+    label: 'Địa chỉ',
+    id: 'address',
+    type: 'text',
+    icon: HomeIcon
+  }
+];

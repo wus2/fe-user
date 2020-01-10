@@ -1,5 +1,8 @@
 import React from 'react';
-// nodejs library that concatenates classes
+// nodejs library that concatenates classesimport { useSelector, useDispatch } from 'react-redux';
+import * as UserActions from 'reduxs/reducers/User/action';
+import { useSelector, useDispatch } from 'react-redux';
+
 import classNames from 'classnames';
 // nodejs library to set properties for components
 import PropTypes from 'prop-types';
@@ -14,13 +17,15 @@ import Drawer from '@material-ui/core/Drawer';
 // @material-ui/icons
 import Menu from '@material-ui/icons/Menu';
 // core components
-import { LinkContainer } from 'react-router-bootstrap';
-import styles from 'shared/Styles/headerStyle.js';
+import styles from 'shared/Styles/headerStyle';
+import history from 'historyConfig';
 
 const useStyles = makeStyles(styles);
 
 export default function Header(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -62,9 +67,15 @@ export default function Header(props) {
     [classes.fixed]: fixed
   });
   const brandComponent = (
-    <LinkContainer to="/">
-      <Button className={classes.title}>{brand}</Button>
-    </LinkContainer>
+    <Button
+      onClick={() => {
+        dispatch(UserActions.GetListTutor(1));
+        history.push('/');
+      }}
+      className={classes.title}
+    >
+      {brand}
+    </Button>
   );
   return (
     <AppBar className={appBarClasses}>
